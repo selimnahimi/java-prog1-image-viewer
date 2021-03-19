@@ -7,7 +7,7 @@ Tagok:
 - Nahimi Selim Krisztián
 - Zabos Péter
 
-#Szegedi Tudományegyetem TTIK Természettudományi és Informatika Kar
+## Szegedi Tudományegyetem TTIK Természettudományi és Informatika Kar
 
 Projektmunka célja egy képnézegető applikáció elkészítése. Szoftverfejlesztés ciklusainak megismerése, és csapaton belüli munka megosztása.
 
