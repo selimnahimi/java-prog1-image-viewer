@@ -9,6 +9,10 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.text.Format;
+
+import com.prog1.kepnezegeto.lib.FormatHandler;
+import com.prog1.kepnezegeto.lib.IFormat;
 
 public class App{
 
@@ -21,12 +25,25 @@ public class App{
     private BufferedImage originalImage; //ezt a kepet toltjuk be
 
     public App() {
+        FormatHandler formatHandler = new FormatHandler();
+        java.util.List<IFormat> list = formatHandler.getFormats();
+
+        for (IFormat format: list) {
+            System.out.println(format.getExtensions()[0]);
+        }
+
         openFileChooser = new JFileChooser(); //erteket adunk a file valasztonak
         openFileChooser.setCurrentDirectory(new File(System.getProperty("user.dir"))); //beallitjuk az alapvetk konyvtarat
 
-        openFileChooser.setFileFilter(new FileNameExtensionFilter("BMP images", "bmp"));
-        openFileChooser.setFileFilter(new FileNameExtensionFilter("PNG images", "png")); //ide irjuk milyen filetipusok lehetnek
-        openFileChooser.setFileFilter(new FileNameExtensionFilter("JPG images", "jpg"));
+        //openFileChooser.setFileFilter(new FileNameExtensionFilter("BMP images", "bmp"));
+        //openFileChooser.setFileFilter(new FileNameExtensionFilter("PNG images", "png")); //ide irjuk milyen filetipusok lehetnek
+        //openFileChooser.setFileFilter(new FileNameExtensionFilter("JPG images", "jpg"));
+
+        for (IFormat format: list) {
+            String extension = format.getExtensions()[0];
+            openFileChooser.setFileFilter(new FileNameExtensionFilter(extension, format.getExtensions()));
+        }
+        openFileChooser.setFileFilter(new FileNameExtensionFilter("JPG images", "jpg,jpeg"));
 
         button1.addActionListener(new ActionListener() {
             @Override
