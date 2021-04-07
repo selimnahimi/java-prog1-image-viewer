@@ -43,7 +43,6 @@ public class App{
             String extension = format.getExtensions()[0];
             openFileChooser.setFileFilter(new FileNameExtensionFilter(extension, format.getExtensions()));
         }
-        openFileChooser.setFileFilter(new FileNameExtensionFilter("JPG images", "jpg,jpeg"));
 
         button1.addActionListener(new ActionListener() {
             @Override
