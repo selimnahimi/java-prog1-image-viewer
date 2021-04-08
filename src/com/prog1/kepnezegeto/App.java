@@ -21,16 +21,13 @@ public class App{
     private JPanel panel1;
     private JLabel label1;
     private JLabel image;
+    private FormatHandler formatHandler;
 
     private final JFileChooser openFileChooser; //ez az ablak lesz a file valaszto
     private BufferedImage originalImage; //ezt a kepet toltjuk be
 
     public App() {
-        //ClassHandler<IFormat> classHandler = new ClassHandler<IFormat>(IFormat.class, "com.prog1.kepnezegeto.lib.formats");
-        //List<IFormat> list = classHandler.getClassList();
-
-        FormatHandler formatHandler = new FormatHandler();
-        List<IFormat> list = formatHandler.getClassList();
+        formatHandler = new FormatHandler();
 
         openFileChooser = new JFileChooser(); //erteket adunk a file valasztonak
         openFileChooser.setCurrentDirectory(new File(System.getProperty("user.dir"))); //beallitjuk az alapvetk konyvtarat
@@ -39,7 +36,7 @@ public class App{
         //openFileChooser.setFileFilter(new FileNameExtensionFilter("PNG images", "png")); //ide irjuk milyen filetipusok lehetnek
         //openFileChooser.setFileFilter(new FileNameExtensionFilter("JPG images", "jpg"));
 
-        for (IFormat format: list) {
+        for (IFormat format: formatHandler.getClassList()) {
             String extension = format.getExtensions()[0];
             openFileChooser.setFileFilter(new FileNameExtensionFilter(extension, format.getExtensions()));
         }
@@ -47,6 +44,14 @@ public class App{
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                openFileChooser.resetChoosableFileFilters();
+                formatHandler.reload();
+
+                for (IFormat format: formatHandler.getClassList()) {
+                    String extension = format.getExtensions()[0];
+                    openFileChooser.setFileFilter(new FileNameExtensionFilter(extension, format.getExtensions()));
+                }
+
                 int returnValue = openFileChooser.showOpenDialog(button1);
 
                 if(returnValue == JFileChooser.APPROVE_OPTION){ //meg lett e nyiva file vagy nem
