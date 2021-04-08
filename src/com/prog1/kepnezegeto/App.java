@@ -9,8 +9,9 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.text.Format;
+import java.util.List;
 
+import com.prog1.kepnezegeto.lib.ClassHandler;
 import com.prog1.kepnezegeto.lib.FormatHandler;
 import com.prog1.kepnezegeto.lib.IFormat;
 
@@ -25,12 +26,11 @@ public class App{
     private BufferedImage originalImage; //ezt a kepet toltjuk be
 
     public App() {
-        FormatHandler formatHandler = new FormatHandler();
-        java.util.List<IFormat> list = formatHandler.getFormats();
+        //ClassHandler<IFormat> classHandler = new ClassHandler<IFormat>(IFormat.class, "com.prog1.kepnezegeto.lib.formats");
+        //List<IFormat> list = classHandler.getClassList();
 
-        for (IFormat format: list) {
-            System.out.println(format.getExtensions()[0]);
-        }
+        FormatHandler formatHandler = new FormatHandler();
+        List<IFormat> list = formatHandler.getClassList();
 
         openFileChooser = new JFileChooser(); //erteket adunk a file valasztonak
         openFileChooser.setCurrentDirectory(new File(System.getProperty("user.dir"))); //beallitjuk az alapvetk konyvtarat
