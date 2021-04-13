@@ -10,50 +10,46 @@ import java.util.List;
 
 public abstract class ClassScanner {
     public static <T> List<T> scanFolder(Class<T> tClass, String packageName) {
-        List<T> list = new ArrayList<T>();
+        List<T> classList = new ArrayList<T>();
 
-        // Translate the package name into an absolute path
+        // A package címet átírjuk egy relatív útvonalra
         String name = packageName;
         if (!name.startsWith("/")) {
             name = "/" + name;
         }
         name = name.replace('.','/');
 
-        // Get a File object for the package
+        // A package mappájáról lekérünk egy File objektumot
         URL url = App.class.getResource(name);
         File directory = new File(url.getFile());
 
         if (directory.exists()) {
-            // Get the list of the files contained in the package
+            // A package által leírt mappában keresünk fájlokat
             String [] files = directory.list();
-            for (int i=0; i<files.length; i++) {
+            assert files != null;
 
-                // we are only interested in .class files
-                if (files[i].endsWith(".class")) {
-                    // removes the .class extension
-                    String classname = files[i].substring(0,files[i].length()-6);
+            for (String file : files) {
+                if (file.endsWith(".class")) {
+                    // Nincs szükségünk a fájl kiterjesztésre
+                    String classname = file.replace(".class", "");
                     try {
-                        // Try to create an instance of the object
-                        Class c = Class.forName(packageName+"."+classname);
+                        // Példányosítjuk az osztályt
+                        Class c = Class.forName(packageName + "." + classname);
                         if (tClass.isAssignableFrom(c)) {
                             Object obj = c.newInstance();
-                            list.add((T) obj);
+                            classList.add((T) obj);
                         }
                     } catch (ClassNotFoundException cnfex) {
-                        System.err.println("Class not found, skipping...");
+                        System.err.println("Az osztály nem található, kihagyás...");
                     } catch (InstantiationException iex) {
-                        System.err.println("No default constructor, skipping...");
-                        // We try to instantiate an interface
-                        // or an object that does not have a
-                        // default constructor
+                        System.err.println("Az osztálynak nincs default konstruktora, ezért nem lehet példányosítani. Kihagyás...");
                     } catch (IllegalAccessException iaex) {
-                        System.err.println("Class is not public, skipping...");
-                        // The class is not public
+                        System.err.println("Az osztály nem publikus, kihagyás...");
                     }
                 }
             }
         }
 
-        return list;
+        return classList;
     }
 }

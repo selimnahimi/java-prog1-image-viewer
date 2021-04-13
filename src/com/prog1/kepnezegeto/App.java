@@ -57,7 +57,12 @@ public class App{
 
                 if(returnValue == JFileChooser.APPROVE_OPTION){ //meg lett e nyiva file vagy nem
                     try{
-                        originalImage = ImageIO.read(openFileChooser.getSelectedFile()); //beolvassuk a kepet
+                        File file = openFileChooser.getSelectedFile();
+                        IFormat format = formatHandler.whichFormat(file.getName());
+
+                        if (format == null) throw new IOException();
+
+                        originalImage = format.loadFile(file); //beolvassuk a kepet
                         label1.setText("Image file successfully loaded!");
 
                         //csinalunk egy uj labelt, es atmeretezzuk a kepet, majd rarakjuk arra
@@ -73,6 +78,7 @@ public class App{
                     }catch (IOException ioe){
                         label1.setText("No file choosen!");
                     }
+                    // TODO: Format error lekezelés
                 }
                 else{
                     label1.setText("No file choosen");
