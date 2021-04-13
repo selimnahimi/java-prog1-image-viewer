@@ -18,10 +18,12 @@ import com.prog1.kepnezegeto.lib.IFormat;
 
 public class App{
 
-    private JButton button1;
+    private JButton buttonOpenFile;
     private JPanel panel1;
     private JLabel label1;
-    private JLabel image;
+    private JButton buttonSaveFile;
+    private JLabel labelImage;
+    private JPanel panelImage;
     private FormatHandler formatHandler;
 
     private final JFileChooser openFileChooser; //ez az ablak lesz a file valaszto
@@ -42,7 +44,7 @@ public class App{
             openFileChooser.setFileFilter(new FileNameExtensionFilter(extension, format.getExtensions()));
         }
 
-        button1.addActionListener(new ActionListener() {
+        buttonOpenFile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 openFileChooser.resetChoosableFileFilters();
@@ -53,7 +55,7 @@ public class App{
                     openFileChooser.setFileFilter(new FileNameExtensionFilter(extension, format.getExtensions()));
                 }
 
-                int returnValue = openFileChooser.showOpenDialog(button1);
+                int returnValue = openFileChooser.showOpenDialog(buttonOpenFile);
 
                 if(returnValue == JFileChooser.APPROVE_OPTION){ //meg lett e nyiva file vagy nem
                     try{
@@ -63,15 +65,32 @@ public class App{
                         if (format == null) throw new IOException();
 
                         originalImage = format.loadFile(file); //beolvassuk a kepet
+
+                        int xOriginal = originalImage.getWidth();
+                        int yOriginal = originalImage.getHeight();
+                        double ratio = (double)xOriginal / (double)yOriginal;
+
+                        int xNew = 0;
+                        int yNew = 0;
+
+                        if(panel1.getWidth()>panel1.getHeight()){
+                            xNew= panel1.getWidth()-100;
+                            yNew=(int)(xNew/ratio);
+                        }
+                        if(panel1.getWidth()<=panel1.getHeight()){
+                            yNew=panel1.getHeight()-100;
+                            xNew=(int)(yNew*ratio);
+                        }
+
                         label1.setText("Image file successfully loaded!");
 
                         //csinalunk egy uj labelt, es atmeretezzuk a kepet, majd rarakjuk arra
 
-                        BufferedImage resizedImage = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
+                        BufferedImage resizedImage = new BufferedImage(xNew, yNew, BufferedImage.TYPE_INT_RGB);
                         Graphics2D g = resizedImage.createGraphics();
-                        g.drawImage(originalImage, 0, 0, 500, 500, null);
+                        g.drawImage(originalImage, 0, 0, xNew, yNew, null);
                         g.dispose();
-                        image.setIcon(new ImageIcon(resizedImage));
+                        labelImage.setIcon(new ImageIcon(resizedImage));
 
 
 
@@ -86,6 +105,7 @@ public class App{
             }
         });
     }
+
     public static BufferedImage flip(BufferedImage image) {
         BufferedImage flipped = new BufferedImage(image.getWidth(), image.getHeight(),
                 image.getType());
