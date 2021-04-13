@@ -16,7 +16,7 @@ import com.prog1.kepnezegeto.lib.ClassHandler;
 import com.prog1.kepnezegeto.lib.FormatHandler;
 import com.prog1.kepnezegeto.lib.IFormat;
 
-public class App{
+public class App extends JFrame{
 
     private JButton buttonOpenFile;
     private JPanel panel1;
@@ -25,6 +25,12 @@ public class App{
     private JLabel labelImage = null;
     private JPanel panelImage;
     private FormatHandler formatHandler;
+
+    private JMenuBar menuBar;
+    private JMenu menu;
+    private JMenuItem menuItem;
+    private JMenuItem menuItem1;
+    private JMenuItem menuItem2;
 
     private final JFileChooser openFileChooser; //ez az ablak lesz a file valaszto
     private BufferedImage originalImage; //ezt a kepet toltjuk be
@@ -43,6 +49,18 @@ public class App{
             String extension = format.getExtensions()[0];
             openFileChooser.setFileFilter(new FileNameExtensionFilter(extension, format.getExtensions()));
         }
+
+        menuBar = new JMenuBar();
+        menu = new JMenu("Operations");
+        menuBar.add(menu);
+        menuItem = new JMenuItem("Flip");
+        menuItem1 = new JMenuItem("Rotate");
+        menuItem2 = new JMenuItem("Invert");
+        menu.add(menuItem);
+        menu.add(menuItem1);
+        menu.add(menuItem2);
+
+        this.setJMenuBar(menuBar);
 
         buttonOpenFile.addActionListener(new ActionListener() {
             @Override
@@ -116,6 +134,12 @@ public class App{
                 labelImage.setIcon(new ImageIcon(originalImage));
             }
         });
+
+        setContentPane(panel1);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        pack();
+        setVisible(true);
+        setSize(500,500);
     }
 
     public static BufferedImage flip(BufferedImage image) {
@@ -155,12 +179,12 @@ public class App{
     }
 
     public static void main(String[] args) {
-        JFrame frame = new JFrame("App");
-        frame.setContentPane(new App().panel1);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-        frame.setSize(500,500);
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new App();
+            }
+        });
     }
 
 }
