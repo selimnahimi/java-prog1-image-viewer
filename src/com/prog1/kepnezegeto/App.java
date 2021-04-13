@@ -22,7 +22,7 @@ public class App{
     private JPanel panel1;
     private JLabel label1;
     private JButton buttonSaveFile;
-    private JLabel labelImage;
+    private JLabel labelImage = null;
     private JPanel panelImage;
     private FormatHandler formatHandler;
 
@@ -102,6 +102,18 @@ public class App{
                 else{
                     label1.setText("No file choosen");
                 }
+            }
+        });
+
+        buttonSaveFile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO: fájlok elmentése
+
+                // Effekt
+                originalImage = rotate(originalImage, Math.PI/2);
+
+                labelImage.setIcon(new ImageIcon(originalImage));
             }
         });
     }
