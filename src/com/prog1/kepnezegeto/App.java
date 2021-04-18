@@ -4,10 +4,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
+import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -24,7 +21,7 @@ public class App extends JFrame{
     private JPanel panel1;
     private JLabel label1;
     private JButton buttonSaveFile;
-    private JLabel labelImage = null;
+    public JLabel labelImage = null;
     private JPanel panelImage;
 
     private FormatHandler formatHandler;
@@ -36,8 +33,9 @@ public class App extends JFrame{
     private JMenuItem menuItem3;
 
     private final JFileChooser openFileChooser; //ez az ablak lesz a file valaszto
-    private BufferedImage originalImage; //ezt a kepet toltjuk be
-    private BufferedImage resizedImage;
+    public static BufferedImage originalImage; //ezt a kepet toltjuk be
+    public static BufferedImage resizedImage;
+    public static double rotationAngle = 0;
 
     public App() {
         formatHandler = new FormatHandler();
@@ -135,8 +133,9 @@ public class App extends JFrame{
         menuItem1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                originalImage = rotate(originalImage, Math.PI/2);
-                resizedImage = rotate(resizedImage, Math.PI/2);
+                Slider sl = new Slider();
+                originalImage = rotate(originalImage,rotationAngle);
+                resizedImage = rotate(resizedImage,rotationAngle);
                 labelImage.setIcon(new ImageIcon(resizedImage));
             }
         });
