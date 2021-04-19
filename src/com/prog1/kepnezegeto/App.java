@@ -10,6 +10,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.awt.image.LookupOp;
+import java.awt.image.LookupTable;
 
 import com.prog1.kepnezegeto.lib.ClassHandler;
 import com.prog1.kepnezegeto.lib.FormatHandler;
@@ -192,7 +194,7 @@ public class App extends JFrame{
 
         //csinalunk egy uj labelt, es atmeretezzuk a kepet, majd rarakjuk arra
 
-        resizedImage = new BufferedImage(xNew, yNew, BufferedImage.TYPE_INT_RGB);
+        resizedImage = new BufferedImage(xNew, yNew, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = resizedImage.createGraphics();
         g.drawImage(originalImage, 0, 0, xNew, yNew, null);
         g.dispose();
@@ -234,6 +236,22 @@ public class App extends JFrame{
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice gd = ge.getDefaultScreenDevice();
         return gd.getDefaultConfiguration();
+    }
+    private static BufferedImage createInverted(BufferedImage image)
+    {
+        LookupTable lookup = new LookupTable(0, 4)
+        {
+            @Override
+            public int[] lookupPixel(int[] src, int[] dest)
+            {
+                dest[0] = (int)(255-src[0]);
+                dest[1] = (int)(255-src[1]);
+                dest[2] = (int)(255-src[2]);
+                return dest;
+            }
+        };
+        LookupOp op = new LookupOp(lookup, new RenderingHints(null));
+        return op.filter(image, null);
     }
 
     public static void main(String[] args) {
