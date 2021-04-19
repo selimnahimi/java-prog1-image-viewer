@@ -151,6 +151,15 @@ public class App extends JFrame{
             }
         });
 
+        menuItem3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                originalImage=createInverted(originalImage);
+                resizedImage=createInverted(resizedImage);
+                labelImage.setIcon(new ImageIcon(resizedImage));
+            }
+        });
+
 
 
         setContentPane(panel1);
@@ -194,7 +203,7 @@ public class App extends JFrame{
 
         //csinalunk egy uj labelt, es atmeretezzuk a kepet, majd rarakjuk arra
 
-        resizedImage = new BufferedImage(xNew, yNew, BufferedImage.TYPE_INT_ARGB);
+        resizedImage = new BufferedImage(xNew, yNew, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = resizedImage.createGraphics();
         g.drawImage(originalImage, 0, 0, xNew, yNew, null);
         g.dispose();
@@ -239,7 +248,7 @@ public class App extends JFrame{
     }
     private static BufferedImage createInverted(BufferedImage image)
     {
-        LookupTable lookup = new LookupTable(0, 4)
+        LookupTable lookup = new LookupTable(0, 3)
         {
             @Override
             public int[] lookupPixel(int[] src, int[] dest)

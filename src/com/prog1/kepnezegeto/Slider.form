@@ -25,7 +25,8 @@
           <paintLabels value="true"/>
           <paintTicks value="true"/>
           <paintTrack value="true"/>
-          <snapToTicks value="false"/>
+          <snapToTicks value="true"/>
+          <valueIsAdjusting value="true"/>
         </properties>
       </component>
     </children>
