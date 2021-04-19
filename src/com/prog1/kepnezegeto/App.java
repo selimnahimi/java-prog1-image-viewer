@@ -16,6 +16,7 @@ import com.prog1.kepnezegeto.lib.FormatHandler;
 import com.prog1.kepnezegeto.lib.IFormat;
 
 public class App extends JFrame{
+    public static App mainApp;
 
     private JButton buttonOpenFile;
     private JPanel panel1;
@@ -33,11 +34,13 @@ public class App extends JFrame{
     private JMenuItem menuItem3;
 
     private final JFileChooser openFileChooser; //ez az ablak lesz a file valaszto
-    public static BufferedImage originalImage; //ezt a kepet toltjuk be
-    public static BufferedImage resizedImage;
-    public static double rotationAngle = 0;
+    public BufferedImage originalImage; //ezt a kepet toltjuk be
+    public BufferedImage resizedImage;
+    public double rotationAngle = 0;
 
     public App() {
+        App.mainApp = this;
+
         formatHandler = new FormatHandler();
 
         openFileChooser = new JFileChooser(); //erteket adunk a file valasztonak
@@ -134,9 +137,6 @@ public class App extends JFrame{
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 Slider sl = new Slider();
-                originalImage = rotate(originalImage,rotationAngle);
-                resizedImage = rotate(resizedImage,rotationAngle);
-                labelImage.setIcon(new ImageIcon(resizedImage));
             }
         });
 

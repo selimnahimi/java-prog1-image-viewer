@@ -20,8 +20,15 @@ public class Slider extends JFrame{
         buttonSelect.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                App app = App.mainApp;
+
                 double value = sliderValue.getValue();
-                App.rotationAngle = value;
+
+                app.rotationAngle = value;
+                app.originalImage = App.rotate(app.originalImage,app.rotationAngle);
+                app.resizedImage = App.rotate(app.resizedImage,app.rotationAngle);
+                app.labelImage.setIcon(new ImageIcon(app.resizedImage));
+
                 setVisible(false);
                 dispose();
             }
