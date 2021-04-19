@@ -41,8 +41,8 @@ public class Slider extends JFrame{
                 double value = sliderValue.getValue();
 
                 app.rotationAngle = value;
-                app.originalImage = App.rotate(app.originalImage,app.rotationAngle);
-                app.resizedImage = App.rotate(app.resizedImage,app.rotationAngle);
+                app.originalImage = App.rotate(app.originalImage,app.rotationAngle * (Math.PI / 180));
+                app.resizedImage = App.rotate(app.resizedImage,app.rotationAngle * (Math.PI / 180));
                 app.labelImage.setIcon(new ImageIcon(app.resizedImage));
 
                 setVisible(false);
