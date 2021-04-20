@@ -17,7 +17,7 @@ import com.prog1.kepnezegeto.lib.ClassHandler;
 import com.prog1.kepnezegeto.lib.FormatHandler;
 import com.prog1.kepnezegeto.lib.IFormat;
 
-public class App extends JFrame{
+public class App extends JFrame {
     public static App mainApp;
 
     private JButton buttonOpenFile;
@@ -52,7 +52,7 @@ public class App extends JFrame{
         //openFileChooser.setFileFilter(new FileNameExtensionFilter("PNG images", "png")); //ide irjuk milyen filetipusok lehetnek
         //openFileChooser.setFileFilter(new FileNameExtensionFilter("JPG images", "jpg"));
 
-        for (IFormat format: formatHandler.getClassList()) {
+        for (IFormat format : formatHandler.getClassList()) {
             String extension = format.getExtensions()[0];
             openFileChooser.setFileFilter(new FileNameExtensionFilter(extension, format.getExtensions()));
         }
@@ -71,37 +71,33 @@ public class App extends JFrame{
 
         this.setJMenuBar(menuBar);
 
-        buttonOpenFile.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                openFileChooser.resetChoosableFileFilters();
-                formatHandler.reload();
+        buttonOpenFile.addActionListener((ActionEvent e) -> {
+            openFileChooser.resetChoosableFileFilters();
+            formatHandler.reload();
 
-                for (IFormat format: formatHandler.getClassList()) {
-                    String extension = format.getExtensions()[0];
-                    openFileChooser.setFileFilter(new FileNameExtensionFilter(extension, format.getExtensions()));
+            for (IFormat format : formatHandler.getClassList()) {
+                String extension = format.getExtensions()[0];
+                openFileChooser.setFileFilter(new FileNameExtensionFilter(extension, format.getExtensions()));
+            }
+
+            int returnValue = openFileChooser.showOpenDialog(buttonOpenFile);
+
+            if (returnValue == JFileChooser.APPROVE_OPTION) { //meg lett e nyiva file vagy nem
+                try {
+                    File file = openFileChooser.getSelectedFile();
+                    IFormat format = formatHandler.whichFormat(file.getName());
+                    if (format == null) throw new IOException();
+                    originalImage = format.loadFile(file); //beolvassuk a kepet
+                    label1.setText("Image file successfully loaded!");
+
+                    resize();
+
+                } catch (IOException ioe) {
+                    label1.setText("No file choosen!");
                 }
-
-                int returnValue = openFileChooser.showOpenDialog(buttonOpenFile);
-
-                if(returnValue == JFileChooser.APPROVE_OPTION){ //meg lett e nyiva file vagy nem
-                    try{
-                        File file = openFileChooser.getSelectedFile();
-                        IFormat format = formatHandler.whichFormat(file.getName());
-                        if (format == null) throw new IOException();
-                        originalImage = format.loadFile(file); //beolvassuk a kepet
-                        label1.setText("Image file successfully loaded!");
-
-                        resize();
-
-                    }catch (IOException ioe){
-                        label1.setText("No file choosen!");
-                    }
-                    // TODO: Format error lekezelés
-                }
-                else{
-                    label1.setText("No file choosen");
-                }
+                // TODO: Format error lekezelés
+            } else {
+                label1.setText("No file choosen");
             }
         });
 
@@ -127,77 +123,60 @@ public class App extends JFrame{
             }
         });
 
-        buttonSaveFile.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // TODO: fájlok elmentése
-
-            }
+        buttonSaveFile.addActionListener((ActionEvent e) -> {
+            // TODO: fájlok elmentése
         });
 
-        menuItem1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                createSlider();
-            }
+        menuItem1.addActionListener((ActionEvent e) -> {
+            Slider sl = new Slider(this);
         });
 
-        menuItem2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                originalImage = flip(originalImage);
-                resizedImage = flip(resizedImage);
-                labelImage.setIcon(new ImageIcon(resizedImage));
-            }
+        menuItem2.addActionListener((ActionEvent e) -> {
+            originalImage = flip(originalImage);
+            resizedImage = flip(resizedImage);
+            labelImage.setIcon(new ImageIcon(resizedImage));
         });
 
-        menuItem3.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                originalImage=createInverted(originalImage);
-                resizedImage=createInverted(resizedImage);
-                labelImage.setIcon(new ImageIcon(resizedImage));
-            }
+        menuItem3.addActionListener((ActionEvent e) -> {
+            originalImage = createInverted(originalImage);
+            resizedImage = createInverted(resizedImage);
+            labelImage.setIcon(new ImageIcon(resizedImage));
         });
 
         setContentPane(panel1);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
         setVisible(true);
-        setSize(500,500);
+        setSize(500, 500);
     }
 
-    private void createSlider(){
-        Slider sl = new Slider(this);
-    }
-
-    public void resize(){
+    public void resize() {
 
         int xOriginal = originalImage.getWidth();
         int yOriginal = originalImage.getHeight();
-        double ratio = (double)xOriginal / (double)yOriginal;
+        double ratio = (double) xOriginal / (double) yOriginal;
 
         int xNew = 0;
         int yNew = 0;
 
-        if(panel1.getWidth()>panel1.getHeight()){
-            xNew= panel1.getWidth()-100;
-            yNew=(int)(xNew/ratio);
-            if(yNew > panel1.getHeight()-100){
-                yNew=panel1.getHeight()-100;
-                if(yNew<0){
-                    yNew=0;
+        if (panel1.getWidth() > panel1.getHeight()) {
+            xNew = panel1.getWidth() - 100;
+            yNew = (int) (xNew / ratio);
+            if (yNew > panel1.getHeight() - 100) {
+                yNew = panel1.getHeight() - 100;
+                if (yNew < 0) {
+                    yNew = 0;
                 }
-                xNew=(int)(yNew*ratio);
+                xNew = (int) (yNew * ratio);
             }
         }
-        if(panel1.getWidth()<=panel1.getHeight()){
-            yNew=panel1.getHeight()-100;
-            xNew=(int)(yNew*ratio);
-            if(xNew > panel1.getWidth()-100){
-                xNew = panel1.getWidth()-100;
-                if(xNew<0){
-                    xNew=0;
+        if (panel1.getWidth() <= panel1.getHeight()) {
+            yNew = panel1.getHeight() - 100;
+            xNew = (int) (yNew * ratio);
+            if (xNew > panel1.getWidth() - 100) {
+                xNew = panel1.getWidth() - 100;
+                if (xNew < 0) {
+                    xNew = 0;
                 }
                 yNew = (int) (xNew / ratio);
             }
@@ -232,7 +211,7 @@ public class App extends JFrame{
     public static BufferedImage rotate(BufferedImage image, double angle) {
         double sin = Math.abs(Math.sin(angle)), cos = Math.abs(Math.cos(angle));
         int w = image.getWidth(), h = image.getHeight();
-        int neww = (int)Math.floor(w*cos+h*sin), newh = (int) Math.floor(h * cos + w * sin);
+        int neww = (int) Math.floor(w * cos + h * sin), newh = (int) Math.floor(h * cos + w * sin);
         GraphicsConfiguration gc = getDefaultConfiguration();
         BufferedImage result = gc.createCompatibleImage(neww, newh, Transparency.TRANSLUCENT);
         Graphics2D g = result.createGraphics();
@@ -248,16 +227,14 @@ public class App extends JFrame{
         GraphicsDevice gd = ge.getDefaultScreenDevice();
         return gd.getDefaultConfiguration();
     }
-    private static BufferedImage createInverted(BufferedImage image)
-    {
-        LookupTable lookup = new LookupTable(0, 3)
-        {
+
+    private static BufferedImage createInverted(BufferedImage image) {
+        LookupTable lookup = new LookupTable(0, 3) {
             @Override
-            public int[] lookupPixel(int[] src, int[] dest)
-            {
-                dest[0] = (int)(255-src[0]);
-                dest[1] = (int)(255-src[1]);
-                dest[2] = (int)(255-src[2]);
+            public int[] lookupPixel(int[] src, int[] dest) {
+                dest[0] = (int) (255 - src[0]);
+                dest[1] = (int) (255 - src[1]);
+                dest[2] = (int) (255 - src[2]);
                 return dest;
             }
         };
