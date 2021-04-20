@@ -36,20 +36,16 @@ public class Slider extends JFrame{
 
         sliderValue.setLabelTable(labelTable);
 
-        buttonSelect.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
+        buttonSelect.addActionListener((ActionEvent e) -> {
 
-                double value = sliderValue.getValue();
+            double value = sliderValue.getValue();
 
-                app.rotationAngle = value;
-                app.originalImage = App.rotate(app.originalImage,app.rotationAngle * (Math.PI / 180));
-                app.resizedImage = App.rotate(app.resizedImage,app.rotationAngle * (Math.PI / 180));
-                app.labelImage.setIcon(new ImageIcon(app.resizedImage));
+            app.originalImage = App.rotate(app.originalImage,value * (Math.PI / 180));
+            app.resizedImage = App.rotate(app.resizedImage,value * (Math.PI / 180));
+            app.labelImage.setIcon(new ImageIcon(app.resizedImage));
 
-                setVisible(false);
-                dispose();
-            }
+            setVisible(false);
+            dispose();
         });
     }
 
