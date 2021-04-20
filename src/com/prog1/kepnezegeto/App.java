@@ -138,7 +138,7 @@ public class App extends JFrame{
         menuItem1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                Slider sl = new Slider();
+                createSlider();
             }
         });
 
@@ -160,13 +160,15 @@ public class App extends JFrame{
             }
         });
 
-
-
         setContentPane(panel1);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
         setVisible(true);
         setSize(500,500);
+    }
+
+    private void createSlider(){
+        Slider sl = new Slider(this);
     }
 
     public void resize(){

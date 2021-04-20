@@ -12,13 +12,16 @@ public class Slider extends JFrame{
     private JSlider sliderValue;
     private JPanel panelSlider;
     private JButton buttonSelect;
+    private App app;
 
-    public Slider(){
+    public Slider(App app){
         setContentPane(panelSlider);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
         setVisible(true);
         setSize(320,140);
+
+        this.app = app;
 
         Dictionary<Integer, Component> labelTable = new Hashtable<Integer, Component>();
         labelTable.put(0, new JLabel("0"));
@@ -36,7 +39,6 @@ public class Slider extends JFrame{
         buttonSelect.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                App app = App.mainApp;
 
                 double value = sliderValue.getValue();
 
