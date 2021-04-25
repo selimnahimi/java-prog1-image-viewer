@@ -1,6 +1,7 @@
 package com.prog1.kepnezegeto;
 
 import javax.imageio.ImageIO;
+import javax.management.openmbean.OpenMBeanAttributeInfo;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
@@ -9,13 +10,12 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.awt.image.LookupOp;
 import java.awt.image.LookupTable;
 
-import com.prog1.kepnezegeto.lib.ClassHandler;
-import com.prog1.kepnezegeto.lib.FormatHandler;
-import com.prog1.kepnezegeto.lib.IFormat;
+import com.prog1.kepnezegeto.lib.*;
 
 public class App extends JFrame {
     public static App mainApp;
@@ -28,12 +28,11 @@ public class App extends JFrame {
     private JPanel panelImage;
 
     private FormatHandler formatHandler;
+    private OperationHandler operationHandler;
 
     private JMenuBar menuBar;
     private JMenu menu;
-    private JMenuItem menuItem1;
-    private JMenuItem menuItem2;
-    private JMenuItem menuItem3;
+    private ArrayList<JMenuItem> menuItems;
 
     private final JFileChooser openFileChooser; //ez az ablak lesz a file valaszto
     public BufferedImage originalImage; //ezt a kepet toltjuk be
@@ -44,6 +43,7 @@ public class App extends JFrame {
         App.mainApp = this;
 
         formatHandler = new FormatHandler();
+        operationHandler = new OperationHandler();
 
         openFileChooser = new JFileChooser(); //erteket adunk a file valasztonak
         openFileChooser.setCurrentDirectory(new File(System.getProperty("user.dir"))); //beallitjuk az alapvetk konyvtarat
@@ -60,14 +60,15 @@ public class App extends JFrame {
         menuBar = new JMenuBar();
         menu = new JMenu("Operations");
         menuBar.add(menu);
-        menuItem1 = new JMenuItem("Rotate");
-        menuItem2 = new JMenuItem("Flip");
-        menuItem3 = new JMenuItem("Invert");
-        menu.add(menuItem1);
-        menu.add(menuItem2);
-        menu.add(menuItem3);
 
-        //itt most egyesevel vannak a menuItemok, ha lesz operation class beolvaso, akkor az majd pakolhatja egy listaba ezeket
+        menuItems = new ArrayList<JMenuItem>();
+        for (IOperation operation : operationHandler.getClassList()) {
+            String name = operation.getName();
+            JMenuItem menuItem = new JMenuItem(name);
+
+            menuItems.add(menuItem);
+            menu.add(menuItem);
+        }
 
         this.setJMenuBar(menuBar);
 
@@ -127,7 +128,7 @@ public class App extends JFrame {
             // TODO: fájlok elmentése
         });
 
-        menuItem1.addActionListener((ActionEvent e) -> {
+        /*menuItem1.addActionListener((ActionEvent e) -> {
             Slider sl = new Slider(this);
         });
 
@@ -141,7 +142,7 @@ public class App extends JFrame {
             originalImage = createInverted(originalImage);
             resizedImage = createInverted(resizedImage);
             labelImage.setIcon(new ImageIcon(resizedImage));
-        });
+        });*/
 
         setContentPane(panel1);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
