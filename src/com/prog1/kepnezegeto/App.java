@@ -1,7 +1,5 @@
 package com.prog1.kepnezegeto;
 
-import javax.imageio.ImageIO;
-import javax.management.openmbean.OpenMBeanAttributeInfo;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
@@ -11,7 +9,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.awt.image.LookupOp;
 import java.awt.image.LookupTable;
 
@@ -39,6 +36,11 @@ public class App extends JFrame {
     public BufferedImage resizedImage;
     public double rotationAngle = 0;
 
+    public void setImage(BufferedImage image) {
+        this.originalImage = image;
+        resize();
+    }
+
     public App() {
         App.mainApp = this;
 
@@ -60,7 +62,9 @@ public class App extends JFrame {
         menuBar = new JMenuBar();
         menu = new JMenu("Operations");
         menuBar.add(menu);
+        this.setJMenuBar(menuBar);
 
+        // Menük hozzáadása OperationHandler-ből
         menuItems = new ArrayList<JMenuItem>();
         for (IOperation operation : operationHandler.getClassList()) {
             String name = operation.getName();
@@ -68,9 +72,20 @@ public class App extends JFrame {
 
             menuItems.add(menuItem);
             menu.add(menuItem);
-        }
 
-        this.setJMenuBar(menuBar);
+            // Actionlistener, mikor rákattintunk
+            menuItem.addActionListener((ActionEvent e) -> {
+                Action action = new AbstractAction() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        BufferedImage image = (BufferedImage) this.getValue("image");
+                        setImage(image);
+                    }
+                };
+
+                operation.execute(this.originalImage, action);
+            });
+        }
 
         buttonOpenFile.addActionListener((ActionEvent e) -> {
             openFileChooser.resetChoosableFileFilters();
@@ -88,10 +103,9 @@ public class App extends JFrame {
                     File file = openFileChooser.getSelectedFile();
                     IFormat format = formatHandler.whichFormat(file.getName());
                     if (format == null) throw new IOException();
-                    originalImage = format.loadFile(file); //beolvassuk a kepet
+                    //originalImage = format.loadFile(file); //beolvassuk a kepet
+                    setImage(format.loadFile(file));
                     label1.setText("Image file successfully loaded!");
-
-                    resize();
 
                 } catch (IOException ioe) {
                     label1.setText("No file choosen!");
@@ -190,8 +204,16 @@ public class App extends JFrame {
         g.drawImage(originalImage, 0, 0, xNew, yNew, null);
         g.dispose();
         labelImage.setIcon(new ImageIcon(resizedImage));
-
     }
+
+    /*public BufferedImage convert(BufferedImage image) {
+        BufferedImage newImage = new BufferedImage();
+
+        Graphics2D g = resizedImage.createGraphics();
+        g.drawImage(originalImage, 0, 0, xNew, yNew, null);
+        g.dispose();
+        labelImage.setIcon(new ImageIcon(resizedImage));
+    }*/
 
     public static BufferedImage flip(BufferedImage image) {
         BufferedImage flipped = new BufferedImage(image.getWidth(), image.getHeight(),
@@ -208,39 +230,10 @@ public class App extends JFrame {
         return flipped;
     }
 
-
-    public static BufferedImage rotate(BufferedImage image, double angle) {
-        double sin = Math.abs(Math.sin(angle)), cos = Math.abs(Math.cos(angle));
-        int w = image.getWidth(), h = image.getHeight();
-        int neww = (int) Math.floor(w * cos + h * sin), newh = (int) Math.floor(h * cos + w * sin);
-        GraphicsConfiguration gc = getDefaultConfiguration();
-        BufferedImage result = gc.createCompatibleImage(neww, newh, Transparency.TRANSLUCENT);
-        Graphics2D g = result.createGraphics();
-        g.translate((neww - w) / 2, (newh - h) / 2);
-        g.rotate(angle, w / 2, h / 2);
-        g.drawRenderedImage(image, null);
-        g.dispose();
-        return result;
-    }
-
-    private static GraphicsConfiguration getDefaultConfiguration() {
+    public static GraphicsConfiguration getDefaultConfiguration() {
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice gd = ge.getDefaultScreenDevice();
         return gd.getDefaultConfiguration();
-    }
-
-    private static BufferedImage createInverted(BufferedImage image) {
-        LookupTable lookup = new LookupTable(0, 3) {
-            @Override
-            public int[] lookupPixel(int[] src, int[] dest) {
-                dest[0] = (int) (255 - src[0]);
-                dest[1] = (int) (255 - src[1]);
-                dest[2] = (int) (255 - src[2]);
-                return dest;
-            }
-        };
-        LookupOp op = new LookupOp(lookup, new RenderingHints(null));
-        return op.filter(image, null);
     }
 
     public static void main(String[] args) {
