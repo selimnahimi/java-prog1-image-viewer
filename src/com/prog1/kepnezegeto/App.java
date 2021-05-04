@@ -138,9 +138,7 @@ public class App extends JFrame {
         });
 
         menuItem3.addActionListener((ActionEvent e) -> {
-            originalImage = createInverted(originalImage);
-            resizedImage = createInverted(resizedImage);
-            labelImage.setIcon(new ImageIcon(resizedImage));
+            RGBSlider rgbslider = new RGBSlider(this);
         });
 
         setContentPane(panel1);
@@ -228,7 +226,7 @@ public class App extends JFrame {
         return gd.getDefaultConfiguration();
     }
 
-    private static BufferedImage createInverted(BufferedImage image) {
+    public static BufferedImage createInverted(BufferedImage image) {
         LookupTable lookup = new LookupTable(0, 3) {
             @Override
             public int[] lookupPixel(int[] src, int[] dest) {
