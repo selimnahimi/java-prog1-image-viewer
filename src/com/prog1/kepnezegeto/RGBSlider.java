@@ -13,6 +13,10 @@ public class RGBSlider extends JFrame{
     private JSlider sliderBlue;
     private JButton buttonOk;
     private JPanel panelRGB;
+    private JCheckBox checkBoxInvert;
+    private JLabel labelRed;
+    private JLabel labelGreen;
+    private JLabel labelBlue;
     private App app;
 
     public RGBSlider(App app) {
@@ -36,9 +40,16 @@ public class RGBSlider extends JFrame{
         buttonOk.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                app.originalImage = app.createInverted(app.originalImage);
-                app.resizedImage = app.createInverted(app.resizedImage);
-                app.labelImage.setIcon(new ImageIcon(app.resizedImage));
+
+                if(checkBoxInvert.isSelected()){
+                    app.originalImage = app.createInverted(app.originalImage);
+                    app.resizedImage = app.createInverted(app.resizedImage);
+                    app.labelImage.setIcon(new ImageIcon(app.resizedImage));
+                }else{
+                    app.RED = sliderRed.getValue();
+                    app.GREEN = sliderGreen.getValue();
+                    app.BLUE = sliderBlue.getValue();
+                }
 
                 setVisible(false);
                 dispose();

@@ -35,6 +35,10 @@ public class App extends JFrame {
     private JMenuItem menuItem2;
     private JMenuItem menuItem3;
 
+    public static int RED;
+    public static int GREEN;
+    public static int BLUE;
+
     private final JFileChooser openFileChooser; //ez az ablak lesz a file valaszto
     public BufferedImage originalImage; //ezt a kepet toltjuk be
     public BufferedImage resizedImage;
@@ -104,7 +108,10 @@ public class App extends JFrame {
         addComponentListener(new ComponentListener() {
             @Override
             public void componentResized(ComponentEvent componentEvent) {
-                resize();
+                if(originalImage!=null){
+                    resize();
+                }
+
             }
 
             @Override
