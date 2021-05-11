@@ -193,7 +193,7 @@ public class App extends JFrame {
         Graphics2D g = resizedImage.createGraphics();
         g.drawImage(originalImage, 0, 0, xNew, yNew, null);
         g.dispose();
-        labelImage.setIcon(new ImageIcon(resizedImage));
+        labelImage.setIcon(new ImageIcon(ColorEdit(resizedImage,-50,0,0)));
 
     }
 
@@ -231,6 +231,41 @@ public class App extends JFrame {
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice gd = ge.getDefaultScreenDevice();
         return gd.getDefaultConfiguration();
+    }
+
+    public static BufferedImage ColorEdit(BufferedImage image,int r,int g, int b) {
+        LookupTable lookup = new LookupTable(0, 3) {
+            @Override
+            public int[] lookupPixel(int[] src, int[] dest) {
+                if(src[0]+r<255 && src[0]+r>0){
+                    dest[0] = (int) (src[0]+r);
+                }if(src[0]+r> 255){
+                    dest[0] = (int) (255);
+                }
+                if(src[0]+r< 0){
+                    dest[0] = (int) (0);
+                }
+                if(src[1]+g<255 && src[1]+g>0){
+                    dest[1] = (int) (src[1]+g);
+                }if(src[1]+g> 255){
+                    dest[1] = (int) (255);
+                }
+                if(src[1]+g< 0){
+                    dest[1] = (int) (0);
+                }
+                if(src[2]+b<255 && src[2]+b>0){
+                    dest[2] = (int) (src[2]+b);
+                }if(src[2]+b> 255){
+                    dest[2] = (int) (255);
+                }
+                if(src[2]+b< 0){
+                    dest[2] = (int) (0);
+                }
+                return dest;
+            }
+        };
+        LookupOp op = new LookupOp(lookup, new RenderingHints(null));
+        return op.filter(image, null);
     }
 
     public static BufferedImage createInverted(BufferedImage image) {
