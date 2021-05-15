@@ -40,11 +40,11 @@ public abstract class ClassScanner {
                             classList.add((T) obj);
                         }
                     } catch (ClassNotFoundException cnfex) {
-                        System.err.println("Az osztály nem található, kihagyás...");
+                        //System.err.println("Az osztály nem található, kihagyás...");
                     } catch (InstantiationException iex) {
-                        System.err.println("Az osztálynak nincs default konstruktora, ezért nem lehet példányosítani. Kihagyás...");
+                        //System.err.println("Az osztálynak nincs default konstruktora, ezért nem lehet példányosítani. Kihagyás...");
                     } catch (IllegalAccessException iaex) {
-                        System.err.println("Az osztály nem publikus, kihagyás...");
+                        //System.err.println("Az osztály nem publikus, kihagyás...");
                     }
                 }
             }
