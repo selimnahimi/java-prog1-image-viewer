@@ -186,7 +186,7 @@ public class App extends JFrame {
 
         //csinalunk egy uj labelt, es atmeretezzuk a kepet, majd rarakjuk arra
 
-        resizedImage = new BufferedImage(xNew, yNew, BufferedImage.TYPE_INT_RGB);
+        resizedImage = new BufferedImage(xNew, yNew, BufferedImage.OPAQUE);
         Graphics2D g = resizedImage.createGraphics();
         g.drawImage(originalImage, 0, 0, xNew, yNew, null);
         g.dispose();

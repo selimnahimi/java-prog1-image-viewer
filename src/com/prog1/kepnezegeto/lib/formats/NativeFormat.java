@@ -1,8 +1,10 @@
 package com.prog1.kepnezegeto.lib.formats;
 
+import com.prog1.kepnezegeto.App;
 import com.prog1.kepnezegeto.lib.IFormat;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -17,15 +19,21 @@ public abstract class NativeFormat implements IFormat {
     }
 
     public BufferedImage loadFile(File file) {
-        BufferedImage image = null;
+        BufferedImage result = null;
 
         try {
-            image = ImageIO.read(file);
+            BufferedImage image = ImageIO.read(file);
+            GraphicsConfiguration gc = App.getDefaultConfiguration();
+            result = gc.createCompatibleImage(image.getWidth(), image.getHeight(), Transparency.OPAQUE);
+            Graphics2D g = result.createGraphics();
+            g.drawRenderedImage(image, null);
+            g.dispose();
+
         } catch(Exception e) {
             // TODO: EXCEPTION
         }
 
-        return image;
+        return result;
     }
 
     public boolean exportFile(BufferedImage image, String path) {

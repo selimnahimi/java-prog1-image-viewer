@@ -40,7 +40,7 @@ public class Rotate extends WindowOperation implements IOperation {
         int w = image.getWidth(), h = image.getHeight();
         int neww = (int) Math.floor(w * cos + h * sin), newh = (int) Math.floor(h * cos + w * sin);
         GraphicsConfiguration gc = App.getDefaultConfiguration();
-        BufferedImage result = gc.createCompatibleImage(neww, newh, Transparency.TRANSLUCENT);
+        BufferedImage result = gc.createCompatibleImage(neww, newh, Transparency.OPAQUE);
         Graphics2D g = result.createGraphics();
         g.translate((neww - w) / 2, (newh - h) / 2);
         g.rotate(angle, w / 2, h / 2);
