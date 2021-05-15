@@ -21,7 +21,7 @@ public class Slider extends JFrame implements IOperationFrame {
         BufferedImage image = (BufferedImage) frameAction.getValue("image");
 
         setContentPane(panelSlider);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         pack();
         setVisible(true);
         setSize(320,140);

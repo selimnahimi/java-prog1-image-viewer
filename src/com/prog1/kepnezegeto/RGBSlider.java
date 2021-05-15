@@ -21,7 +21,7 @@ public class RGBSlider extends JFrame{
 
     public RGBSlider(App app) {
         setContentPane(panelRGB);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         pack();
         setVisible(true);
         setSize(320,300);
