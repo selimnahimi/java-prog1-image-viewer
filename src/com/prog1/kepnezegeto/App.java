@@ -31,6 +31,10 @@ public class App extends JFrame {
     private JMenu menu;
     private ArrayList<JMenuItem> menuItems;
 
+    public static int RED;
+    public static int GREEN;
+    public static int BLUE;
+
     private final JFileChooser openFileChooser; //ez az ablak lesz a file valaszto
     public BufferedImage originalImage; //ezt a kepet toltjuk be
     public BufferedImage resizedImage;
@@ -115,7 +119,10 @@ public class App extends JFrame {
         addComponentListener(new ComponentListener() {
             @Override
             public void componentResized(ComponentEvent componentEvent) {
-                resize();
+                if(originalImage!=null){
+                    resize();
+                }
+
             }
 
             @Override
@@ -137,22 +144,6 @@ public class App extends JFrame {
         buttonSaveFile.addActionListener((ActionEvent e) -> {
             // TODO: fájlok elmentése
         });
-
-        /*menuItem1.addActionListener((ActionEvent e) -> {
-            Slider sl = new Slider(this);
-        });
-
-        menuItem2.addActionListener((ActionEvent e) -> {
-            originalImage = flip(originalImage);
-            resizedImage = flip(resizedImage);
-            labelImage.setIcon(new ImageIcon(resizedImage));
-        });
-
-        menuItem3.addActionListener((ActionEvent e) -> {
-            originalImage = createInverted(originalImage);
-            resizedImage = createInverted(resizedImage);
-            labelImage.setIcon(new ImageIcon(resizedImage));
-        });*/
 
         setContentPane(panel1);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -230,6 +221,55 @@ public class App extends JFrame {
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice gd = ge.getDefaultScreenDevice();
         return gd.getDefaultConfiguration();
+    }
+
+    public static BufferedImage ColorEdit(BufferedImage image,int r,int g, int b) {
+        LookupTable lookup = new LookupTable(0, 3) {
+            @Override
+            public int[] lookupPixel(int[] src, int[] dest) {
+                if(src[0]+r<255 && src[0]+r>0){
+                    dest[0] = (int) (src[0]+r);
+                }if(src[0]+r> 255){
+                    dest[0] = (int) (255);
+                }
+                if(src[0]+r< 0){
+                    dest[0] = (int) (0);
+                }
+                if(src[1]+g<255 && src[1]+g>0){
+                    dest[1] = (int) (src[1]+g);
+                }if(src[1]+g> 255){
+                    dest[1] = (int) (255);
+                }
+                if(src[1]+g< 0){
+                    dest[1] = (int) (0);
+                }
+                if(src[2]+b<255 && src[2]+b>0){
+                    dest[2] = (int) (src[2]+b);
+                }if(src[2]+b> 255){
+                    dest[2] = (int) (255);
+                }
+                if(src[2]+b< 0){
+                    dest[2] = (int) (0);
+                }
+                return dest;
+            }
+        };
+        LookupOp op = new LookupOp(lookup, new RenderingHints(null));
+        return op.filter(image, null);
+    }
+
+    public static BufferedImage createInverted(BufferedImage image) {
+        LookupTable lookup = new LookupTable(0, 3) {
+            @Override
+            public int[] lookupPixel(int[] src, int[] dest) {
+                dest[0] = (int) (255 - src[0]);
+                dest[1] = (int) (255 - src[1]);
+                dest[2] = (int) (255 - src[2]);
+                return dest;
+            }
+        };
+        LookupOp op = new LookupOp(lookup, new RenderingHints(null));
+        return op.filter(image, null);
     }
 
     public static void main(String[] args) {
