@@ -29,7 +29,7 @@ public class Invert extends Operation implements IOperation {
 
         action.putValue("image", newImage);
 
-        manualExecute(action);
+        manualExecute(this, action);
     }
 
     @Override

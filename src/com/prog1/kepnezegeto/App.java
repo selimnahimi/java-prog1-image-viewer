@@ -50,10 +50,6 @@ public class App extends JFrame {
         openFileChooser = new JFileChooser(); //erteket adunk a file valasztonak
         openFileChooser.setCurrentDirectory(new File(System.getProperty("user.dir"))); //beallitjuk az alapvetk konyvtarat
 
-        //openFileChooser.setFileFilter(new FileNameExtensionFilter("BMP images", "bmp"));
-        //openFileChooser.setFileFilter(new FileNameExtensionFilter("PNG images", "png")); //ide irjuk milyen filetipusok lehetnek
-        //openFileChooser.setFileFilter(new FileNameExtensionFilter("JPG images", "jpg"));
-
         for (IFormat format : formatHandler.getClassList()) {
             String extension = format.getExtensions()[0];
             openFileChooser.setFileFilter(new FileNameExtensionFilter(extension, format.getExtensions()));

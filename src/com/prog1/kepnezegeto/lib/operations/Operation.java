@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 
 public abstract class Operation implements IOperation {
-    public void manualExecute(Action action) {
-        action.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
+    public static void manualExecute(Object source, Action finishAction) {
+        finishAction.actionPerformed(new ActionEvent(source, ActionEvent.ACTION_PERFORMED, null));
     }
 }
