@@ -1,27 +1,30 @@
 package com.prog1.kepnezegeto;
 
+import com.prog1.kepnezegeto.lib.IOperationFrame;
+import com.prog1.kepnezegeto.lib.operations.Operation;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
 
-public class Slider extends JFrame{
+public class Slider extends JFrame implements IOperationFrame {
     private JSlider sliderValue;
     private JPanel panelSlider;
     private JButton buttonSelect;
-    private App app;
 
-    public Slider(App app){
+    public void open(Action frameAction) {
+        BufferedImage image = (BufferedImage) frameAction.getValue("image");
+
         setContentPane(panelSlider);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
         setVisible(true);
         setSize(320,140);
-
-        this.app = app;
 
         Dictionary<Integer, Component> labelTable = new Hashtable<Integer, Component>();
         labelTable.put(0, new JLabel("0"));
@@ -38,16 +41,15 @@ public class Slider extends JFrame{
 
         buttonSelect.addActionListener((ActionEvent e) -> {
 
-            double value = sliderValue.getValue();
+            frameAction.putValue("sliderValue", sliderValue.getValue());
+            Operation.manualExecute(this, frameAction);
 
-            app.originalImage = App.rotate(app.originalImage,value * (Math.PI / 180));
-            app.resizedImage = App.rotate(app.resizedImage,value * (Math.PI / 180));
-            app.labelImage.setIcon(new ImageIcon(app.resizedImage));
-
-            setVisible(false);
-            dispose();
+            close();
         });
     }
 
-
+    public void close() {
+        setVisible(false);
+        dispose();
+    }
 }

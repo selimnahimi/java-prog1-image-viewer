@@ -1,6 +1,5 @@
 package com.prog1.kepnezegeto;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
@@ -9,13 +8,11 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
+import java.util.ArrayList;
 import java.awt.image.LookupOp;
 import java.awt.image.LookupTable;
 
-import com.prog1.kepnezegeto.lib.ClassHandler;
-import com.prog1.kepnezegeto.lib.FormatHandler;
-import com.prog1.kepnezegeto.lib.IFormat;
+import com.prog1.kepnezegeto.lib.*;
 
 public class App extends JFrame {
     public static App mainApp;
@@ -28,12 +25,11 @@ public class App extends JFrame {
     private JPanel panelImage;
 
     private FormatHandler formatHandler;
+    private OperationHandler operationHandler;
 
     private JMenuBar menuBar;
     private JMenu menu;
-    private JMenuItem menuItem1;
-    private JMenuItem menuItem2;
-    private JMenuItem menuItem3;
+    private ArrayList<JMenuItem> menuItems;
 
     public static int RED;
     public static int GREEN;
@@ -44,17 +40,19 @@ public class App extends JFrame {
     public BufferedImage resizedImage;
     public double rotationAngle = 0;
 
+    public void setImage(BufferedImage image) {
+        this.originalImage = image;
+        resize();
+    }
+
     public App() {
         App.mainApp = this;
 
         formatHandler = new FormatHandler();
+        operationHandler = new OperationHandler();
 
         openFileChooser = new JFileChooser(); //erteket adunk a file valasztonak
         openFileChooser.setCurrentDirectory(new File(System.getProperty("user.dir"))); //beallitjuk az alapvetk konyvtarat
-
-        //openFileChooser.setFileFilter(new FileNameExtensionFilter("BMP images", "bmp"));
-        //openFileChooser.setFileFilter(new FileNameExtensionFilter("PNG images", "png")); //ide irjuk milyen filetipusok lehetnek
-        //openFileChooser.setFileFilter(new FileNameExtensionFilter("JPG images", "jpg"));
 
         for (IFormat format : formatHandler.getClassList()) {
             String extension = format.getExtensions()[0];
@@ -64,16 +62,30 @@ public class App extends JFrame {
         menuBar = new JMenuBar();
         menu = new JMenu("Operations");
         menuBar.add(menu);
-        menuItem1 = new JMenuItem("Rotate");
-        menuItem2 = new JMenuItem("Flip");
-        menuItem3 = new JMenuItem("Invert");
-        menu.add(menuItem1);
-        menu.add(menuItem2);
-        menu.add(menuItem3);
-
-        //itt most egyesevel vannak a menuItemok, ha lesz operation class beolvaso, akkor az majd pakolhatja egy listaba ezeket
-
         this.setJMenuBar(menuBar);
+
+        // Menük hozzáadása OperationHandler-ből
+        menuItems = new ArrayList<JMenuItem>();
+        for (IOperation operation : operationHandler.getClassList()) {
+            String name = operation.getName();
+            JMenuItem menuItem = new JMenuItem(name);
+
+            menuItems.add(menuItem);
+            menu.add(menuItem);
+
+            // Actionlistener, mikor rákattintunk
+            menuItem.addActionListener((ActionEvent e) -> {
+                Action action = new AbstractAction() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        BufferedImage image = (BufferedImage) this.getValue("image");
+                        setImage(image);
+                    }
+                };
+
+                operation.execute(this.originalImage, action);
+            });
+        }
 
         buttonOpenFile.addActionListener((ActionEvent e) -> {
             openFileChooser.resetChoosableFileFilters();
@@ -91,10 +103,9 @@ public class App extends JFrame {
                     File file = openFileChooser.getSelectedFile();
                     IFormat format = formatHandler.whichFormat(file.getName());
                     if (format == null) throw new IOException();
-                    originalImage = format.loadFile(file); //beolvassuk a kepet
+                    //originalImage = format.loadFile(file); //beolvassuk a kepet
+                    setImage(format.loadFile(file));
                     label1.setText("Image file successfully loaded!");
-
-                    resize();
 
                 } catch (IOException ioe) {
                     label1.setText("No file choosen!");
@@ -132,20 +143,6 @@ public class App extends JFrame {
 
         buttonSaveFile.addActionListener((ActionEvent e) -> {
             // TODO: fájlok elmentése
-        });
-
-        menuItem1.addActionListener((ActionEvent e) -> {
-            Slider sl = new Slider(this);
-        });
-
-        menuItem2.addActionListener((ActionEvent e) -> {
-            originalImage = flip(originalImage);
-            resizedImage = flip(resizedImage);
-            labelImage.setIcon(new ImageIcon(resizedImage));
-        });
-
-        menuItem3.addActionListener((ActionEvent e) -> {
-            RGBSlider rgbslider = new RGBSlider(this);
         });
 
         setContentPane(panel1);
@@ -193,9 +190,17 @@ public class App extends JFrame {
         Graphics2D g = resizedImage.createGraphics();
         g.drawImage(originalImage, 0, 0, xNew, yNew, null);
         g.dispose();
-        labelImage.setIcon(new ImageIcon(ColorEdit(resizedImage,-50,0,0)));
-
+        labelImage.setIcon(new ImageIcon(resizedImage));
     }
+
+    /*public BufferedImage convert(BufferedImage image) {
+        BufferedImage newImage = new BufferedImage();
+
+        Graphics2D g = resizedImage.createGraphics();
+        g.drawImage(originalImage, 0, 0, xNew, yNew, null);
+        g.dispose();
+        labelImage.setIcon(new ImageIcon(resizedImage));
+    }*/
 
     public static BufferedImage flip(BufferedImage image) {
         BufferedImage flipped = new BufferedImage(image.getWidth(), image.getHeight(),
@@ -212,22 +217,7 @@ public class App extends JFrame {
         return flipped;
     }
 
-
-    public static BufferedImage rotate(BufferedImage image, double angle) {
-        double sin = Math.abs(Math.sin(angle)), cos = Math.abs(Math.cos(angle));
-        int w = image.getWidth(), h = image.getHeight();
-        int neww = (int) Math.floor(w * cos + h * sin), newh = (int) Math.floor(h * cos + w * sin);
-        GraphicsConfiguration gc = getDefaultConfiguration();
-        BufferedImage result = gc.createCompatibleImage(neww, newh, Transparency.TRANSLUCENT);
-        Graphics2D g = result.createGraphics();
-        g.translate((neww - w) / 2, (newh - h) / 2);
-        g.rotate(angle, w / 2, h / 2);
-        g.drawRenderedImage(image, null);
-        g.dispose();
-        return result;
-    }
-
-    private static GraphicsConfiguration getDefaultConfiguration() {
+    public static GraphicsConfiguration getDefaultConfiguration() {
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice gd = ge.getDefaultScreenDevice();
         return gd.getDefaultConfiguration();
