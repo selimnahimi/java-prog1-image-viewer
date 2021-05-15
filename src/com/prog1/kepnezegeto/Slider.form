@@ -21,15 +21,17 @@
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <majorTickSpacing value="20"/>
+          <enabled value="true"/>
+          <majorTickSpacing value="90"/>
           <maximum value="360"/>
-          <minorTickSpacing value="5"/>
+          <minorTickSpacing value="0"/>
           <paintLabels value="true"/>
           <paintTicks value="true"/>
           <paintTrack value="true"/>
           <snapToTicks value="true"/>
           <value value="90"/>
-          <valueIsAdjusting value="true"/>
+          <valueIsAdjusting value="false"/>
+          <verifyInputWhenFocusTarget value="true"/>
         </properties>
       </component>
     </children>
