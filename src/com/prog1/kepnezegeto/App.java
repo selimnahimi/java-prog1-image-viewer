@@ -17,10 +17,8 @@ import com.prog1.kepnezegeto.lib.*;
 public class App extends JFrame {
     public static App mainApp;
 
-    private JButton buttonOpenFile;
     private JPanel panel1;
     private JLabel label1;
-    private JButton buttonSaveFile;
     public JLabel labelImage = null;
     private JPanel panelImage;
 
@@ -29,6 +27,11 @@ public class App extends JFrame {
 
     private JMenuBar menuBar;
     private JMenu menu;
+    private JMenu fileMenu;
+    private JMenuItem openMenuItem;
+    private JMenuItem saveMenuItem;
+    private JMenuItem closeMenuItem;
+    private JMenuItem helpMenuItem;
     private ArrayList<JMenuItem> menuItems;
 
     public static int RED;
@@ -61,6 +64,16 @@ public class App extends JFrame {
 
         menuBar = new JMenuBar();
         menu = new JMenu("Operations");
+        fileMenu = new JMenu("File");
+        openMenuItem = new JMenuItem("Open");
+        saveMenuItem = new JMenuItem("Save");
+        closeMenuItem = new JMenuItem("Close");
+        helpMenuItem = new JMenuItem("Help");
+        fileMenu.add(openMenuItem);
+        fileMenu.add(saveMenuItem);
+        fileMenu.add(helpMenuItem);
+        fileMenu.add(closeMenuItem);
+        menuBar.add(fileMenu);
         menuBar.add(menu);
         this.setJMenuBar(menuBar);
 
@@ -87,7 +100,7 @@ public class App extends JFrame {
             });
         }
 
-        buttonOpenFile.addActionListener((ActionEvent e) -> {
+        openMenuItem.addActionListener((ActionEvent e) -> {
             openFileChooser.resetChoosableFileFilters();
             formatHandler.reload();
 
@@ -96,7 +109,7 @@ public class App extends JFrame {
                 openFileChooser.setFileFilter(new FileNameExtensionFilter(extension, format.getExtensions()));
             }
 
-            int returnValue = openFileChooser.showOpenDialog(buttonOpenFile);
+            int returnValue = openFileChooser.showOpenDialog(openMenuItem);
 
             if (returnValue == JFileChooser.APPROVE_OPTION) { //meg lett e nyiva file vagy nem
                 try {
@@ -141,8 +154,34 @@ public class App extends JFrame {
             }
         });
 
-        buttonSaveFile.addActionListener((ActionEvent e) -> {
-            // TODO: fájlok elmentése
+        saveMenuItem.addActionListener((ActionEvent e) -> {
+
+            int returnValue = openFileChooser.showSaveDialog(saveMenuItem);
+
+            if (returnValue == JFileChooser.APPROVE_OPTION) { //meg lett e nyiva file vagy nem
+                try {
+                    File file = openFileChooser.getSelectedFile();
+                    IFormat format = formatHandler.whichFormat(file.getName());
+                    if (format == null) throw new IOException();
+                    //originalImage = format.loadFile(file); //beolvassuk a kepet
+                    format.exportFile(originalImage,file.getAbsolutePath());
+                    label1.setText("Image file successfully saved!");
+
+                } catch (IOException ioe) {
+                    label1.setText("Cannot save file!");
+                }
+                // TODO: Format error lekezelés
+            } else {
+                label1.setText("No file choosen to save");
+            }
+        });
+
+        helpMenuItem.addActionListener((ActionEvent e) -> {
+            showHelp();
+        });
+
+        closeMenuItem.addActionListener((ActionEvent e) -> {
+            System.exit(0);
         });
 
         setContentPane(panel1);
@@ -150,6 +189,10 @@ public class App extends JFrame {
         pack();
         setVisible(true);
         setSize(500, 500);
+    }
+
+    private void showHelp(){
+        JOptionPane.showMessageDialog(this,"Show help");
     }
 
     public void resize() {
