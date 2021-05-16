@@ -236,15 +236,6 @@ public class App extends JFrame {
         labelImage.setIcon(new ImageIcon(resizedImage));
     }
 
-    /*public BufferedImage convert(BufferedImage image) {
-        BufferedImage newImage = new BufferedImage();
-
-        Graphics2D g = resizedImage.createGraphics();
-        g.drawImage(originalImage, 0, 0, xNew, yNew, null);
-        g.dispose();
-        labelImage.setIcon(new ImageIcon(resizedImage));
-    }*/
-
     public static BufferedImage flip(BufferedImage image) {
         BufferedImage flipped = new BufferedImage(image.getWidth(), image.getHeight(),
                 image.getType());

@@ -3,7 +3,6 @@ package com.prog1.kepnezegeto.lib;
 import com.prog1.kepnezegeto.App;
 
 import java.io.File;
-import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;

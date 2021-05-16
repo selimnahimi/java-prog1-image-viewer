@@ -1,7 +1,5 @@
 package com.prog1.kepnezegeto.lib;
 
-import java.io.IOException;
-
 public class FormatHandler extends ClassHandler<IFormat> {
     public FormatHandler() {
         super(IFormat.class, "com.prog1.kepnezegeto.lib.formats");
