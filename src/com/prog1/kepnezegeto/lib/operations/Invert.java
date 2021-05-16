@@ -24,7 +24,7 @@ public class Invert extends Operation implements IOperation {
         };
         LookupOp op = new LookupOp(lookup, new RenderingHints(null));
 
-        BufferedImage newImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
+        BufferedImage newImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.OPAQUE);
         op.filter(image, newImage);
 
         action.putValue("image", newImage);
