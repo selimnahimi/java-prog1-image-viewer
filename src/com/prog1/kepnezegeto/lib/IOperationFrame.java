@@ -4,4 +4,5 @@ import javax.swing.*;
 
 public interface IOperationFrame {
     public void open(Action frameAction);
+    public void close();
 }

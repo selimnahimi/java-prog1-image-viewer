@@ -1,5 +1,8 @@
 package com.prog1.kepnezegeto;
 
+import com.prog1.kepnezegeto.lib.IOperationFrame;
+import com.prog1.kepnezegeto.lib.operations.Operation;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
-public class RGBSlider extends JFrame{
+public class RGBSlider extends JFrame implements IOperationFrame {
     private JSlider sliderRed;
     private JSlider sliderGreen;
     private JSlider sliderBlue;
@@ -17,9 +20,8 @@ public class RGBSlider extends JFrame{
     private JLabel labelRed;
     private JLabel labelGreen;
     private JLabel labelBlue;
-    private App app;
 
-    public RGBSlider(App app) {
+    public void open(Action frameAction) {
         setContentPane(panelRGB);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         pack();
@@ -35,25 +37,21 @@ public class RGBSlider extends JFrame{
         sliderGreen.setLabelTable(labelTable);
         sliderBlue.setLabelTable(labelTable);
 
-        this.app = app;
-
         buttonOk.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                frameAction.putValue("sliderValueRed", sliderRed.getValue());
+                frameAction.putValue("sliderValueGreen", sliderGreen.getValue());
+                frameAction.putValue("sliderValueBlue", sliderBlue.getValue());
+                Operation.manualExecute(this, frameAction);
 
-                if(checkBoxInvert.isSelected()){
-                    app.originalImage = app.createInverted(app.originalImage);
-                    app.resizedImage = app.createInverted(app.resizedImage);
-                    app.labelImage.setIcon(new ImageIcon(app.resizedImage));
-                }else{
-                    app.RED = sliderRed.getValue();
-                    app.GREEN = sliderGreen.getValue();
-                    app.BLUE = sliderBlue.getValue();
-                }
-
-                setVisible(false);
-                dispose();
+                close();
             }
         });
+    }
+
+    public void close() {
+        setVisible(false);
+        dispose();
     }
 }
