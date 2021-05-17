@@ -19,7 +19,7 @@ public class App extends JFrame {
 
     private JPanel panel1;
     private JLabel label1;
-    public JLabel labelImage = null;
+    public JLabel labelImage;
     private JPanel panelImage;
 
     private FormatHandler formatHandler;
@@ -34,14 +34,10 @@ public class App extends JFrame {
     private JMenuItem helpMenuItem;
     private ArrayList<JMenuItem> menuItems;
 
-    public static int RED;
-    public static int GREEN;
-    public static int BLUE;
 
     private final JFileChooser openFileChooser; //ez az ablak lesz a file valaszto
     public BufferedImage originalImage; //ezt a kepet toltjuk be
     public BufferedImage resizedImage;
-    public double rotationAngle = 0;
 
     public void setImage(BufferedImage image) {
         this.originalImage = image;
@@ -118,14 +114,13 @@ public class App extends JFrame {
                     if (format == null) throw new IOException();
                     //originalImage = format.loadFile(file); //beolvassuk a kepet
                     setImage(format.loadFile(file));
-                    label1.setText("Image file successfully loaded!");
 
                 } catch (IOException ioe) {
-                    label1.setText("No file choosen!");
+                    showOptions("Sikertelen a kép beolvasása");
                 }
                 // TODO: Format error lekezelés
             } else {
-                label1.setText("No file choosen");
+
             }
         });
 
@@ -165,19 +160,18 @@ public class App extends JFrame {
                     if (format == null) throw new IOException();
                     //originalImage = format.loadFile(file); //beolvassuk a kepet
                     format.exportFile(originalImage,file.getAbsolutePath());
-                    label1.setText("Image file successfully saved!");
 
                 } catch (IOException ioe) {
-                    label1.setText("Cannot save file!");
+                    showOptions("Sikertelen a kép mentése");
                 }
                 // TODO: Format error lekezelés
             } else {
-                label1.setText("No file choosen to save");
+
             }
         });
 
         helpMenuItem.addActionListener((ActionEvent e) -> {
-            showHelp();
+            showOptions("Show help");
         });
 
         closeMenuItem.addActionListener((ActionEvent e) -> {
@@ -191,8 +185,8 @@ public class App extends JFrame {
         setSize(500, 500);
     }
 
-    private void showHelp(){
-        JOptionPane.showMessageDialog(this,"Show help");
+    private void showOptions(String text){
+        JOptionPane.showMessageDialog(this,text);
     }
 
     public void resize() {
