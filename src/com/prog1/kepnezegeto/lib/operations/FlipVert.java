@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 /**
  * Függőleges tükrözés operáció kezelő osztály
  */
-public class FlipVert extends Operation implements IOperation {
+public class FlipVert implements IOperation {
     @Override
     public void execute(BufferedImage image, Action action) {
 
@@ -18,7 +18,7 @@ public class FlipVert extends Operation implements IOperation {
 
         action.putValue("image", newImage);
 
-        manualExecute(this, action);
+        OperationHelper.manualExecute(this, action);
     }
 
     /**

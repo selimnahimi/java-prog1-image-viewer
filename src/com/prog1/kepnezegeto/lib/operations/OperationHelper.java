@@ -6,9 +6,9 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 /**
- * Operációt leíró osztály
+ * Operációkat segítő osztály
  */
-public abstract class Operation implements IOperation {
+public abstract class OperationHelper implements IOperation {
     /**
      * Egy Swing Action manuális meghívása
      * @param source Meghívó objektum

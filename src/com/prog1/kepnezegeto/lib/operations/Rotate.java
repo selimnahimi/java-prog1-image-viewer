@@ -33,7 +33,7 @@ public class Rotate extends WindowOperation implements IOperation {
                 image = rotate(image,sliderValue * (Math.PI / 180));
 
                 finalAction.putValue("image", image);
-                manualExecute(this, finalAction);
+                OperationHelper.manualExecute(this, finalAction);
             }
         };
     }

@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
  * Egy olyan operációt leíró osztály, mely egy ablakon kezeli az inputot,
  * és az alapján hajta végre a módosításokat a képen
  */
-public abstract class WindowOperation extends Operation implements IOperation {
+public abstract class WindowOperation implements IOperation {
     private Action finalAction;
     private BufferedImage image;
 

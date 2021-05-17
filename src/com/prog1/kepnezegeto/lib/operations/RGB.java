@@ -36,7 +36,7 @@ public class RGB extends WindowOperation implements IOperation {
                 image = colorEdit(image, sliderValueRed, sliderValueGreen, sliderValueBlue);
 
                 finalAction.putValue("image", image);
-                manualExecute(this, finalAction);
+                OperationHelper.manualExecute(this, finalAction);
             }
         };
     }

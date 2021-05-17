@@ -1,7 +1,7 @@
 package com.prog1.kepnezegeto.lib.forms;
 
 import com.prog1.kepnezegeto.lib.interfaces.IOperationFrame;
-import com.prog1.kepnezegeto.lib.operations.Operation;
+import com.prog1.kepnezegeto.lib.operations.OperationHelper;
 
 import javax.swing.*;
 import java.awt.*;
@@ -45,7 +45,7 @@ public class RGBSlider extends JFrame implements IOperationFrame {
                 frameAction.putValue("sliderValueRed", sliderRed.getValue());
                 frameAction.putValue("sliderValueGreen", sliderGreen.getValue());
                 frameAction.putValue("sliderValueBlue", sliderBlue.getValue());
-                Operation.manualExecute(this, frameAction);
+                OperationHelper.manualExecute(this, frameAction);
 
                 close();
             }

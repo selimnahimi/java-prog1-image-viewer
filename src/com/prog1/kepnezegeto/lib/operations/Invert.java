@@ -11,7 +11,7 @@ import java.awt.image.LookupTable;
 /**
  * Invertálás operáció kezelő osztály
  */
-public class Invert extends Operation implements IOperation {
+public class Invert implements IOperation {
     @Override
     public void execute(BufferedImage image, Action action) {
 
@@ -19,7 +19,7 @@ public class Invert extends Operation implements IOperation {
 
         action.putValue("image", newImage);
 
-        manualExecute(this, action);
+        OperationHelper.manualExecute(this, action);
     }
 
     /**

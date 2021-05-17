@@ -1,7 +1,7 @@
 package com.prog1.kepnezegeto.lib.forms;
 
 import com.prog1.kepnezegeto.lib.interfaces.IOperationFrame;
-import com.prog1.kepnezegeto.lib.operations.Operation;
+import com.prog1.kepnezegeto.lib.operations.OperationHelper;
 
 import javax.swing.*;
 import java.awt.*;
@@ -42,7 +42,7 @@ public class Slider extends JFrame implements IOperationFrame {
         buttonSelect.addActionListener((ActionEvent e) -> {
 
             frameAction.putValue("sliderValue", sliderValue.getValue());
-            Operation.manualExecute(this, frameAction);
+            OperationHelper.manualExecute(this, frameAction);
 
             close();
         });

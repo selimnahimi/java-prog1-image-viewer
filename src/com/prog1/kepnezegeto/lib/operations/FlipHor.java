@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 /**
  * Vízszintes tükrözés operáció kezelő osztály
  */
-public class FlipHor extends Operation implements IOperation {
+public class FlipHor implements IOperation {
     @Override
     public void execute(BufferedImage image, Action action) {
 
@@ -18,7 +18,7 @@ public class FlipHor extends Operation implements IOperation {
 
         action.putValue("image", newImage);
 
-        manualExecute(this, action);
+        OperationHelper.manualExecute(this, action);
     }
 
     /**
