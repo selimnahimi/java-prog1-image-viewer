@@ -17,7 +17,7 @@ public abstract class ClassScanner {
      * @param tClass Interfész osztálya
      * @param packageName Package elérési útvonala, ahonnan olvassuk a class fájlokat
      * @param <T> Interfész típusa
-     * @return Egy <T> típusú lista, amely osztályok egyetlen példányát tartalmazza, reflection célból
+     * @return Egy T típusú lista, amely osztályok egyetlen példányát tartalmazza, reflection célból
      */
     public static <T> List<T> scanFolder(Class<T> tClass, String packageName) {
         List<T> classList = new ArrayList<T>();
