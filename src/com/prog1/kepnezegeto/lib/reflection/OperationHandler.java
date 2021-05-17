@@ -1,4 +1,6 @@
-package com.prog1.kepnezegeto.lib;
+package com.prog1.kepnezegeto.lib.reflection;
+
+import com.prog1.kepnezegeto.lib.interfaces.IOperation;
 
 /**
  * IOperation interfészt használó osztálykezelő osztály

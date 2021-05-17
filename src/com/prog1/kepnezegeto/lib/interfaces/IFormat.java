@@ -1,4 +1,4 @@
-package com.prog1.kepnezegeto.lib;
+package com.prog1.kepnezegeto.lib.interfaces;
 
 import java.awt.image.BufferedImage;
 import java.io.File;

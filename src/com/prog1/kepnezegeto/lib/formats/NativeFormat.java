@@ -1,7 +1,7 @@
 package com.prog1.kepnezegeto.lib.formats;
 
 import com.prog1.kepnezegeto.App;
-import com.prog1.kepnezegeto.lib.IFormat;
+import com.prog1.kepnezegeto.lib.interfaces.IFormat;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

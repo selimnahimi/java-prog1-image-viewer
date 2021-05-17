@@ -2,7 +2,7 @@ package com.prog1.kepnezegeto.lib.operations;
 
 import com.prog1.kepnezegeto.App;
 import com.prog1.kepnezegeto.lib.forms.Slider;
-import com.prog1.kepnezegeto.lib.IOperation;
+import com.prog1.kepnezegeto.lib.interfaces.IOperation;
 
 import javax.swing.*;
 import java.awt.*;

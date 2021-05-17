@@ -10,7 +10,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import com.prog1.kepnezegeto.lib.*;
+import com.prog1.kepnezegeto.lib.interfaces.IFormat;
+import com.prog1.kepnezegeto.lib.interfaces.IOperation;
+import com.prog1.kepnezegeto.lib.reflection.FormatHandler;
+import com.prog1.kepnezegeto.lib.reflection.OperationHandler;
 
 /**
  * Fő App osztály, a program magja
