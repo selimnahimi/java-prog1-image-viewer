@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
 public abstract class NativeFormat implements IFormat {
     protected String[] extensions;
@@ -18,19 +19,19 @@ public abstract class NativeFormat implements IFormat {
         return extensions;
     }
 
-    public BufferedImage loadFile(File file) {
+    public BufferedImage loadFile(File file) throws IOException {
         BufferedImage result = null;
 
         try {
             BufferedImage image = ImageIO.read(file);
+
             GraphicsConfiguration gc = App.getDefaultConfiguration();
             result = gc.createCompatibleImage(image.getWidth(), image.getHeight(), Transparency.OPAQUE);
             Graphics2D g = result.createGraphics();
             g.drawRenderedImage(image, null);
             g.dispose();
-
-        } catch(Exception e) {
-            // TODO: EXCEPTION
+        } catch (Exception e) {
+            throw new IOException("Invalid image file!");
         }
 
         return result;

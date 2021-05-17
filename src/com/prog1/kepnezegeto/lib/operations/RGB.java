@@ -1,6 +1,6 @@
 package com.prog1.kepnezegeto.lib.operations;
 
-import com.prog1.kepnezegeto.RGBSlider;
+import com.prog1.kepnezegeto.lib.forms.RGBSlider;
 import com.prog1.kepnezegeto.lib.IOperation;
 
 import javax.swing.*;

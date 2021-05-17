@@ -1,4 +1,4 @@
-package com.prog1.kepnezegeto;
+package com.prog1.kepnezegeto.lib.forms;
 
 import com.prog1.kepnezegeto.lib.IOperationFrame;
 import com.prog1.kepnezegeto.lib.operations.Operation;
@@ -16,7 +16,6 @@ public class RGBSlider extends JFrame implements IOperationFrame {
     private JSlider sliderBlue;
     private JButton buttonOk;
     private JPanel panelRGB;
-    private JCheckBox checkBoxInvert;
     private JLabel labelRed;
     private JLabel labelGreen;
     private JLabel labelBlue;
@@ -29,9 +28,9 @@ public class RGBSlider extends JFrame implements IOperationFrame {
         setSize(320,300);
 
         Dictionary<Integer, Component> labelTable = new Hashtable<Integer, Component>();
+        labelTable.put(-255, new JLabel("-255"));
         labelTable.put(0, new JLabel("0"));
-        labelTable.put(50, new JLabel("50"));
-        labelTable.put(100, new JLabel("100"));
+        labelTable.put(255, new JLabel("255"));
 
         sliderRed.setLabelTable(labelTable);
         sliderGreen.setLabelTable(labelTable);
