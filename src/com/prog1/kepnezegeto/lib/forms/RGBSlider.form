@@ -13,14 +13,15 @@
           <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <inverted value="false"/>
           <majorTickSpacing value="50"/>
           <maximum value="255"/>
           <minimum value="-255"/>
           <minorTickSpacing value="0"/>
           <paintLabels value="true"/>
-          <paintTicks value="false"/>
-          <snapToTicks value="true"/>
-          <value value="-5"/>
+          <paintTicks value="true"/>
+          <snapToTicks value="false"/>
+          <value value="0"/>
         </properties>
       </component>
       <component id="f78c1" class="javax.swing.JSlider" binding="sliderGreen">
@@ -35,8 +36,8 @@
           <minorTickSpacing value="0"/>
           <paintLabels value="true"/>
           <paintTicks value="true"/>
-          <snapToTicks value="true"/>
-          <value value="-5"/>
+          <snapToTicks value="false"/>
+          <value value="0"/>
         </properties>
       </component>
       <component id="33275" class="javax.swing.JSlider" binding="sliderBlue">
@@ -50,8 +51,9 @@
           <minorTickSpacing value="0"/>
           <paintLabels value="true"/>
           <paintTicks value="true"/>
-          <snapToTicks value="true"/>
-          <value value="-5"/>
+          <snapToTicks value="false"/>
+          <value value="0"/>
+          <valueIsAdjusting value="false"/>
         </properties>
       </component>
       <component id="fa3a8" class="javax.swing.JButton" binding="buttonOk">

@@ -28,8 +28,8 @@ public class RGBSlider extends JFrame implements IOperationFrame {
         setSize(320,300);
 
         Dictionary<Integer, Component> labelTable = new Hashtable<Integer, Component>();
-        labelTable.put(0, new JLabel("0"));
         labelTable.put(-255, new JLabel("-255"));
+        labelTable.put(0, new JLabel("0"));
         labelTable.put(255, new JLabel("255"));
 
         sliderRed.setLabelTable(labelTable);
