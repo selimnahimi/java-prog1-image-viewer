@@ -12,7 +12,7 @@
 - Kép mentése jpg-ben -> **sikeres**
 #### Teszt 3
 - bmp kép betöltése -> **sikeres**
-- Elforgatás 90 fokkal -> **sikeres**
+- Elforgatás +90 fokkal -> **sikeres**
 - Rgb edit -> **sikeres**
 - Kép mentése gif-ben -> **sikeres**
 #### Teszt 4
@@ -33,7 +33,7 @@
 - Flip horisontal -> **sikeres**
 - Flip vertical -> **sikeres**
 - RGB edit -> **sikeres**
-- Rotate 180 fokkal -> **sikeres**
+- Forgatás +180 fokkal -> **sikeres**
 - Kép mentése png-ben -> **sikeres**
 #### Teszt 8
 - wbmp kép betöltése -> **sikeres**
@@ -45,6 +45,6 @@
 - Kép mentése png-ben -> **sikeres**
 #### Teszt 10
 - jpg kép betöltése -> **sikeres**
-- Forgatás 90 fokkal -> **sikeres**
-- Forgatás 270 fokkal -> **sikeres**  
+- Forgatás -90 fokkal -> **sikeres**
+- Forgatás 90 fokkal -> **sikeres**  
 - Kép mentése jpg-ben -> **sikeres**

@@ -29,8 +29,8 @@ Projektmunka célja egy képnézegető applikáció elkészítése. Szoftverfejl
 - A program indítása után a File menüponton belül az Helpre kattintva elolvashatjuk az utmutatót a használatrol. 
 - Open-re kattintva egy File chooser jelenik meg ahol a megfelelő file kiterjesztést kiválasztva megtudjuk nyitni az adott képet.
 - Operations menüponton belül kitudjuk választani milyen módosításokat szeretnénk elvégezni
-  - **Flip horizontal** vizszintes tengelyen tükrözi a képet 
-  - **Flip vertical** függőleges tengelyen tükrözi a képet
+  - **Flip horizontal** függőleges tengelyen tükrözi a képet 
+  - **Flip vertical** vizszintes tengelyen tükrözi a képet
   - **Invert** invertálja a képet
   - **RGB Edit** színskála szerint tudjuk változtatni a kép színét
   - **Rotate** kép elforgatása 90 fokkal
