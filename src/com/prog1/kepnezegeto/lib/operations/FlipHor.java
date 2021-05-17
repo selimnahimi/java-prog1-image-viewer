@@ -20,8 +20,8 @@ public class FlipHor extends Operation implements IOperation {
 
     public static BufferedImage flip(BufferedImage image) {
         BufferedImage flipped = new BufferedImage(image.getWidth(), image.getHeight(), image.getType());
-        AffineTransform tran = AffineTransform.getTranslateInstance(image.getWidth(), 0);
-        AffineTransform flip = AffineTransform.getScaleInstance(-1d, 1d);
+        AffineTransform tran = AffineTransform.getTranslateInstance(0, image.getHeight());
+        AffineTransform flip = AffineTransform.getScaleInstance(1d, -1d);
         tran.concatenate(flip);
 
         Graphics2D g = flipped.createGraphics();
