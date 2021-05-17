@@ -26,11 +26,13 @@ public class Slider extends JFrame implements IOperationFrame {
         setSize(320,140);
 
         Dictionary<Integer, Component> labelTable = new Hashtable<Integer, Component>();
+        labelTable.put(-270, new JLabel("-270"));
+        labelTable.put(-180, new JLabel("-180"));
+        labelTable.put(-90, new JLabel("-90"));
         labelTable.put(0, new JLabel("0"));
         labelTable.put(90, new JLabel("90"));
         labelTable.put(180, new JLabel("180"));
         labelTable.put(270, new JLabel("270"));
-        labelTable.put(360, new JLabel("360"));
 
         sliderValue.setLabelTable(labelTable);
 

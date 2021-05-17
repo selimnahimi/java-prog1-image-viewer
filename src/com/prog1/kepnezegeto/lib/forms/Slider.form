@@ -23,13 +23,14 @@
         <properties>
           <enabled value="true"/>
           <majorTickSpacing value="90"/>
-          <maximum value="360"/>
+          <maximum value="270"/>
+          <minimum value="-270"/>
           <minorTickSpacing value="0"/>
           <paintLabels value="true"/>
           <paintTicks value="true"/>
           <paintTrack value="true"/>
           <snapToTicks value="true"/>
-          <value value="90"/>
+          <value value="0"/>
           <valueIsAdjusting value="false"/>
           <verifyInputWhenFocusTarget value="true"/>
         </properties>
