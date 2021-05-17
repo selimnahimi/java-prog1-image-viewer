@@ -4,13 +4,10 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.awt.image.LookupOp;
-import java.awt.image.LookupTable;
 
 import com.prog1.kepnezegeto.lib.*;
 
@@ -111,16 +108,15 @@ public class App extends JFrame {
                 try {
                     File file = openFileChooser.getSelectedFile();
                     IFormat format = formatHandler.whichFormat(file.getName());
-                    if (format == null) throw new IOException();
-                    //originalImage = format.loadFile(file); //beolvassuk a kepet
+                    if (format == null) throw new IOException("Unsupported file format!");
                     setImage(format.loadFile(file));
 
                 } catch (IOException ioe) {
-                    showOptions("Sikertelen a kép beolvasása");
+                    System.out.println(ioe.toString());
+                    if (ioe.getMessage() != null) {
+                        showOptions(ioe.getMessage());
+                    }
                 }
-                // TODO: Format error lekezelés
-            } else {
-
             }
         });
 
@@ -158,15 +154,11 @@ public class App extends JFrame {
                     File file = openFileChooser.getSelectedFile();
                     IFormat format = formatHandler.whichFormat(file.getName());
                     if (format == null) throw new IOException();
-                    //originalImage = format.loadFile(file); //beolvassuk a kepet
                     format.exportFile(originalImage,file.getAbsolutePath());
 
                 } catch (IOException ioe) {
-                    showOptions("Sikertelen a kép mentése");
+                    showOptions("Failed saving the image!");
                 }
-                // TODO: Format error lekezelés
-            } else {
-
             }
         });
 
@@ -230,74 +222,10 @@ public class App extends JFrame {
         labelImage.setIcon(new ImageIcon(resizedImage));
     }
 
-    public static BufferedImage flip(BufferedImage image) {
-        BufferedImage flipped = new BufferedImage(image.getWidth(), image.getHeight(),
-                image.getType());
-        AffineTransform tran = AffineTransform.getTranslateInstance(0,
-                image.getHeight());
-        AffineTransform flip = AffineTransform.getScaleInstance(1d, -1d);
-        tran.concatenate(flip);
-
-        Graphics2D g = flipped.createGraphics();
-        g.setTransform(tran);
-        g.drawImage(image, 0, 0, null);
-        g.dispose();
-        return flipped;
-    }
-
     public static GraphicsConfiguration getDefaultConfiguration() {
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice gd = ge.getDefaultScreenDevice();
         return gd.getDefaultConfiguration();
-    }
-
-    public static BufferedImage ColorEdit(BufferedImage image,int r,int g, int b) {
-        LookupTable lookup = new LookupTable(0, 3) {
-            @Override
-            public int[] lookupPixel(int[] src, int[] dest) {
-                if(src[0]+r<255 && src[0]+r>0){
-                    dest[0] = (int) (src[0]+r);
-                }if(src[0]+r> 255){
-                    dest[0] = (int) (255);
-                }
-                if(src[0]+r< 0){
-                    dest[0] = (int) (0);
-                }
-                if(src[1]+g<255 && src[1]+g>0){
-                    dest[1] = (int) (src[1]+g);
-                }if(src[1]+g> 255){
-                    dest[1] = (int) (255);
-                }
-                if(src[1]+g< 0){
-                    dest[1] = (int) (0);
-                }
-                if(src[2]+b<255 && src[2]+b>0){
-                    dest[2] = (int) (src[2]+b);
-                }if(src[2]+b> 255){
-                    dest[2] = (int) (255);
-                }
-                if(src[2]+b< 0){
-                    dest[2] = (int) (0);
-                }
-                return dest;
-            }
-        };
-        LookupOp op = new LookupOp(lookup, new RenderingHints(null));
-        return op.filter(image, null);
-    }
-
-    public static BufferedImage createInverted(BufferedImage image) {
-        LookupTable lookup = new LookupTable(0, 3) {
-            @Override
-            public int[] lookupPixel(int[] src, int[] dest) {
-                dest[0] = (int) (255 - src[0]);
-                dest[1] = (int) (255 - src[1]);
-                dest[2] = (int) (255 - src[2]);
-                return dest;
-            }
-        };
-        LookupOp op = new LookupOp(lookup, new RenderingHints(null));
-        return op.filter(image, null);
     }
 
     public static void main(String[] args) {
