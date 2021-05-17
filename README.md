@@ -19,10 +19,10 @@ Projektmunka célja egy képnézegető applikáció elkészítése. Szoftverfejl
 - Ezek bővíthetőek, tehát egy új class file elkészítésével, és a projekt file-jai közé másolva, azonnal elérhető lesz az új kiterjesztés típus is.
 - A kép betöltése után különböző funkciók elérhetőek a programom belül
   - a képet tudjuk ***tükrözni***, azaz tengelyes szimetriával megkapjuk a kép tükörmását
-  - a képet el lehet ***forgatni 90 fokkal***, ezzel tetejére lehet állítani, vagy jobbra és balra dönteni
-  - a képnek a ***színskáláját*** lehet állítani, tehát a fehér és fekete színek kontrasztját konfigurálni
-- A kép szerkesztése után ezeket a változásokat el lehet menteni egy új képként, az eredetii kép másolata néven.
-- Képszerkesztő funkciók is szintén bővíthetőek. Ennek az a lényege, ha egy új funkciót szeretnénk hozzáadni a programhoz, ami előre leprogramozott, akkor ne kelljen változtatni a programkódon, hanem csak a class file-okat a projekt struktúrájába másolni, és ezt követően a programot újraindítva rögtön használhatóak lesznek.
+  - a képet el lehet ***forgatni -270 és 270 fok között***, ezzel tetejére lehet állítani, vagy jobbra és balra dönteni
+  - a képnek a ***színskáláját*** lehet állítani, tehát a színek összetételét konfigurálni
+- A kép szerkesztése után ezeket a változásokat el lehet menteni egy új képként, tetszőleges támogatott formátumban.
+- Képszerkesztő funkciók is szintén bővíthetőek. Ennek az a lényege, ha egy új funkciót szeretnénk hozzáadni a programhoz, ami előre leprogramozott, akkor ne kelljen változtatni a programkódon, hanem csak a class file-okat a projekt struktúrájába másolni futásidőben, és azok rögtön használhatóak lesznek.
 - *Extra* követelmény: reflection mechanizmus használata, futás közben lehessen bővíteni új class file-okkal a programot. (Opcionális)
 
 # Program használata
