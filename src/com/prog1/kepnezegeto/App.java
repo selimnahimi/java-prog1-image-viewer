@@ -156,7 +156,16 @@ public class App extends JFrame {
         });
 
         helpMenuItem.addActionListener((ActionEvent e) -> {
-            showOptions("Show help");
+            showOptions("Program használata:\n" +
+                    "- A program indítása után a File menüponton belül az Helpre kattintva elolvashatjuk az utmutatót a használatrol. \n" +
+                    "- Open-re kattintva egy File chooser jelenik meg ahol a megfelelő file kiterjesztést kiválasztva megtudjuk nyitni az adott képet.\n" +
+                    "- Operations menüponton belül kitudjuk választani milyen módosításokat szeretnénk elvégezni\n" +
+                    "  - Flip horizontal vizszintes tengelyen tükrözi a képet \n" +
+                    "  - Flip vertical függőleges tengelyen tükrözi a képet\n" +
+                    "  - Invert invertálja a képet\n" +
+                    "  - RGB Edit színskála szerint tudjuk változtatni a kép színét\n" +
+                    "  - Rotate kép elforgatása 90 fokkal\n" +
+                    "- File menüponton belül a Save-ra kattintva ismét egy File chooser jelenik meg ahol le tudjuk mententeni a képünket");
         });
 
         closeMenuItem.addActionListener((ActionEvent e) -> {
