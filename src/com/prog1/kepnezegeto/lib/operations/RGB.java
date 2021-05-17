@@ -10,6 +10,9 @@ import java.awt.image.BufferedImage;
 import java.awt.image.LookupOp;
 import java.awt.image.LookupTable;
 
+/**
+ * RGB skála operáció kezelő osztály
+ */
 public class RGB extends WindowOperation implements IOperation {
     @Override
     protected void openFrame(Action frameAction) {
@@ -38,6 +41,15 @@ public class RGB extends WindowOperation implements IOperation {
         };
     }
 
+    /**
+     * Színskála módosítása
+     *
+     * @param image Kép, amit módosítunk
+     * @param r     Piros szín eltolása
+     * @param g     Zöld szín eltolása
+     * @param b     Kék szín eltolása
+     * @return Módosított kép
+     */
     public static BufferedImage colorEdit(BufferedImage image, int r, int g, int b) {
         LookupTable lookup = new LookupTable(0, 3) {
             @Override

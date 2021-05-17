@@ -9,11 +9,15 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Java Swing-ben megtalálható beépített formátumok kezelő osztálya
+ */
 public abstract class NativeFormat implements IFormat {
     protected String[] extensions;
 
     // Needed for instancing
-    public NativeFormat() {}
+    public NativeFormat() {
+    }
 
     public String[] getExtensions() {
         return extensions;

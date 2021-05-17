@@ -11,6 +11,9 @@ import java.util.Dictionary;
 import java.util.Hashtable;
 
 
+/**
+ * Fok Slider JFrame
+ */
 public class Slider extends JFrame implements IOperationFrame {
     private JSlider sliderValue;
     private JPanel panelSlider;
@@ -23,7 +26,7 @@ public class Slider extends JFrame implements IOperationFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         pack();
         setVisible(true);
-        setSize(320,140);
+        setSize(320, 140);
 
         Dictionary<Integer, Component> labelTable = new Hashtable<Integer, Component>();
         labelTable.put(-270, new JLabel("-270"));

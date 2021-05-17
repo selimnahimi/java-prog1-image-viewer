@@ -10,6 +10,9 @@ import java.awt.event.ActionListener;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
+/**
+ * RGB Slider JFrame
+ */
 public class RGBSlider extends JFrame implements IOperationFrame {
     private JSlider sliderRed;
     private JSlider sliderGreen;
@@ -25,7 +28,7 @@ public class RGBSlider extends JFrame implements IOperationFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         pack();
         setVisible(true);
-        setSize(320,300);
+        setSize(320, 300);
 
         Dictionary<Integer, Component> labelTable = new Hashtable<Integer, Component>();
         labelTable.put(-255, new JLabel("-255"));

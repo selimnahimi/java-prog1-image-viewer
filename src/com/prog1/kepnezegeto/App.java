@@ -9,10 +9,12 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import com.prog1.kepnezegeto.lib.*;
 
+/**
+ * Fő App osztály, a program magja
+ */
 public class App extends JFrame {
     public static App mainApp;
 
@@ -36,6 +38,11 @@ public class App extends JFrame {
     public BufferedImage originalImage; //ezt a kepet toltjuk be
     public BufferedImage resizedImage;
 
+    /**
+     * A betöltött kép lecserélése
+     *
+     * @param image Kép, amire cserélünk
+     */
     public void setImage(BufferedImage image) {
         this.originalImage = image;
         resize();
@@ -179,6 +186,9 @@ public class App extends JFrame {
         setSize(500, 500);
     }
 
+    /**
+     * Operációk betöltése reflekció használatával
+     */
     private void loadOperations() {
         OperationHandler operationHandler = new OperationHandler();
 
@@ -206,10 +216,18 @@ public class App extends JFrame {
         }
     }
 
+    /**
+     * Felugró ablak mutatása
+     *
+     * @param text Szöveg, ami megjelenik
+     */
     private void showOptions(String text) {
         JOptionPane.showMessageDialog(this, text);
     }
 
+    /**
+     * Megjelenített (nem az eredeti) kép átméretezése az ablak méretétől függően
+     */
     public void resize() {
 
         int xOriginal = originalImage.getWidth();
@@ -251,12 +269,20 @@ public class App extends JFrame {
         labelImage.setIcon(new ImageIcon(resizedImage));
     }
 
+    /**
+     * Java Swing GraphicsConfiguration lekérdezése a GUI kontextusban
+     * @return GraphicsConfiguration
+     */
     public static GraphicsConfiguration getDefaultConfiguration() {
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice gd = ge.getDefaultScreenDevice();
         return gd.getDefaultConfiguration();
     }
 
+    /**
+     * Main függvény
+     * @param args CLI argumentumok
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(App::new);
     }

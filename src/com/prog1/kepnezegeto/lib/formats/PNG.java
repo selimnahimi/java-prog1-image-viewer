@@ -4,9 +4,12 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * PNG formátum kezelő osztály
+ */
 public class PNG extends NativeFormat {
     public PNG() {
-        this.extensions = new String[] {"png"};
+        this.extensions = new String[]{"png"};
     }
 
     @Override

@@ -9,6 +9,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 
+/**
+ * Forgatás operáció kezelő osztály
+ */
 public class Rotate extends WindowOperation implements IOperation {
     @Override
     protected void openFrame(Action frameAction) {
@@ -35,6 +38,12 @@ public class Rotate extends WindowOperation implements IOperation {
         };
     }
 
+    /**
+     * Kép forgatása
+     * @param image Kép, amit forgatni szeretnénk
+     * @param angle Kép forgatás foka
+     * @return Forgatott kép
+     */
     private BufferedImage rotate(BufferedImage image, double angle) {
         double sin = Math.abs(Math.sin(angle)), cos = Math.abs(Math.cos(angle));
         int w = image.getWidth(), h = image.getHeight();

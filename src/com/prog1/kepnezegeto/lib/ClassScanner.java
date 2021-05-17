@@ -7,7 +7,18 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Osztály scanner
+ */
 public abstract class ClassScanner {
+    /**
+     * Egy mappából olvas be Class fájlokat, ha azok egy adott interfészt megvalósítanak,
+     * példányosítja azokat, és egy listában visszaadja őket.
+     * @param tClass Interfész osztálya
+     * @param packageName Package elérési útvonala, ahonnan olvassuk a class fájlokat
+     * @param <T> Interfész típusa
+     * @return Egy <T> típusú lista, amely osztályok egyetlen példányát tartalmazza, reflection célból
+     */
     public static <T> List<T> scanFolder(Class<T> tClass, String packageName) {
         List<T> classList = new ArrayList<T>();
 

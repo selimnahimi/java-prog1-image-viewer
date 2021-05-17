@@ -7,6 +7,9 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
+/**
+ * Vízszintes tükrözés operáció kezelő osztály
+ */
 public class FlipHor extends Operation implements IOperation {
     @Override
     public void execute(BufferedImage image, Action action) {
@@ -18,6 +21,11 @@ public class FlipHor extends Operation implements IOperation {
         manualExecute(this, action);
     }
 
+    /**
+     * Kép tükrözése vízszintesen
+     * @param image kép, amit tükrözünk
+     * @return tükrözött kép
+     */
     public static BufferedImage flip(BufferedImage image) {
         BufferedImage flipped = new BufferedImage(image.getWidth(), image.getHeight(), image.getType());
         AffineTransform tran = AffineTransform.getTranslateInstance(image.getWidth(), 0);

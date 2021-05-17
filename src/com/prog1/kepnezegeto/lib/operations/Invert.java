@@ -8,10 +8,27 @@ import java.awt.image.BufferedImage;
 import java.awt.image.LookupOp;
 import java.awt.image.LookupTable;
 
+/**
+ * Invertálás operáció kezelő osztály
+ */
 public class Invert extends Operation implements IOperation {
     @Override
     public void execute(BufferedImage image, Action action) {
 
+        BufferedImage newImage = invert(image);
+
+        action.putValue("image", newImage);
+
+        manualExecute(this, action);
+    }
+
+    /**
+     * Kép invertálása
+     *
+     * @param image Invertálandó kép
+     * @return Invertált kép
+     */
+    public BufferedImage invert(BufferedImage image) {
         LookupTable lookup = new LookupTable(0, 3) {
             @Override
             public int[] lookupPixel(int[] src, int[] dest) {
@@ -26,9 +43,7 @@ public class Invert extends Operation implements IOperation {
         BufferedImage newImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.OPAQUE);
         op.filter(image, newImage);
 
-        action.putValue("image", newImage);
-
-        manualExecute(this, action);
+        return newImage;
     }
 
     @Override
