@@ -1,4 +1,4 @@
-package com.prog1.kepnezegeto;
+package com.prog1.kepnezegeto.lib.forms;
 
 import com.prog1.kepnezegeto.lib.IOperationFrame;
 import com.prog1.kepnezegeto.lib.operations.Operation;

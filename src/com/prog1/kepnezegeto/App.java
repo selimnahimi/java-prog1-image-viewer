@@ -1,6 +1,8 @@
 package com.prog1.kepnezegeto;
 
 import javax.swing.*;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
@@ -20,16 +22,14 @@ public class App extends JFrame {
     private JPanel panelImage;
 
     private FormatHandler formatHandler;
-    private OperationHandler operationHandler;
 
     private JMenuBar menuBar;
-    private JMenu menu;
+    private JMenu operationMenu;
     private JMenu fileMenu;
     private JMenuItem openMenuItem;
     private JMenuItem saveMenuItem;
     private JMenuItem closeMenuItem;
     private JMenuItem helpMenuItem;
-    private ArrayList<JMenuItem> menuItems;
 
 
     private final JFileChooser openFileChooser; //ez az ablak lesz a file valaszto
@@ -45,7 +45,6 @@ public class App extends JFrame {
         App.mainApp = this;
 
         formatHandler = new FormatHandler();
-        operationHandler = new OperationHandler();
 
         openFileChooser = new JFileChooser(); //erteket adunk a file valasztonak
         openFileChooser.setCurrentDirectory(new File(System.getProperty("user.dir"))); //beallitjuk az alapvetk konyvtarat
@@ -56,7 +55,7 @@ public class App extends JFrame {
         }
 
         menuBar = new JMenuBar();
-        menu = new JMenu("Operations");
+        operationMenu = new JMenu("Operations");
         fileMenu = new JMenu("File");
         openMenuItem = new JMenuItem("Open");
         saveMenuItem = new JMenuItem("Save");
@@ -67,31 +66,8 @@ public class App extends JFrame {
         fileMenu.add(helpMenuItem);
         fileMenu.add(closeMenuItem);
         menuBar.add(fileMenu);
-        menuBar.add(menu);
+        menuBar.add(operationMenu);
         this.setJMenuBar(menuBar);
-
-        // Menük hozzáadása OperationHandler-ből
-        menuItems = new ArrayList<JMenuItem>();
-        for (IOperation operation : operationHandler.getClassList()) {
-            String name = operation.getName();
-            JMenuItem menuItem = new JMenuItem(name);
-
-            menuItems.add(menuItem);
-            menu.add(menuItem);
-
-            // Actionlistener, mikor rákattintunk
-            menuItem.addActionListener((ActionEvent e) -> {
-                Action action = new AbstractAction() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        BufferedImage image = (BufferedImage) this.getValue("image");
-                        setImage(image);
-                    }
-                };
-
-                operation.execute(this.originalImage, action);
-            });
-        }
 
         openMenuItem.addActionListener((ActionEvent e) -> {
             openFileChooser.resetChoosableFileFilters();
@@ -120,10 +96,27 @@ public class App extends JFrame {
             }
         });
 
+        operationMenu.addMenuListener(new MenuListener() {
+            @Override
+            public void menuSelected(MenuEvent e) {
+                loadOperations();
+            }
+
+            @Override
+            public void menuDeselected(MenuEvent e) {
+
+            }
+
+            @Override
+            public void menuCanceled(MenuEvent e) {
+
+            }
+        });
+
         addComponentListener(new ComponentListener() {
             @Override
             public void componentResized(ComponentEvent componentEvent) {
-                if(originalImage!=null){
+                if (originalImage != null) {
                     resize();
                 }
 
@@ -154,7 +147,7 @@ public class App extends JFrame {
                     File file = openFileChooser.getSelectedFile();
                     IFormat format = formatHandler.whichFormat(file.getName());
                     if (format == null) throw new IOException();
-                    format.exportFile(originalImage,file.getAbsolutePath());
+                    format.exportFile(originalImage, file.getAbsolutePath());
 
                 } catch (IOException ioe) {
                     showOptions("Failed saving the image!");
@@ -177,8 +170,35 @@ public class App extends JFrame {
         setSize(500, 500);
     }
 
-    private void showOptions(String text){
-        JOptionPane.showMessageDialog(this,text);
+    private void loadOperations() {
+        OperationHandler operationHandler = new OperationHandler();
+
+        // Menük hozzáadása OperationHandler-ből
+        operationMenu.removeAll();
+
+        for (IOperation operation : operationHandler.getClassList()) {
+            String name = operation.getName();
+            JMenuItem menuItem = new JMenuItem(name);
+
+            operationMenu.add(menuItem);
+
+            // Actionlistener, mikor rákattintunk
+            menuItem.addActionListener((ActionEvent e2) -> {
+                Action action = new AbstractAction() {
+                    @Override
+                    public void actionPerformed(ActionEvent e2) {
+                        BufferedImage image = (BufferedImage) this.getValue("image");
+                        setImage(image);
+                    }
+                };
+
+                operation.execute(originalImage, action);
+            });
+        }
+    }
+
+    private void showOptions(String text) {
+        JOptionPane.showMessageDialog(this, text);
     }
 
     public void resize() {
