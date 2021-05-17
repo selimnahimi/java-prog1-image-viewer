@@ -40,8 +40,8 @@ Projektmunka célja egy képnézegető applikáció elkészítése. Szoftverfejl
 
 # További segédletek
 
-- UML diagramm, a program szellemi tervét és alapjait reprezentáló tervrajz. (tervdokumentáció)
 - Program kód
-- Tesztjegyzőkönyvek
-
+- [UML diagram](UML/UML.png), a program szellemi tervét és alapjait reprezentáló tervrajz. (tervdokumentáció)
+- [Tesztjegyzőkönyvek](Test.md)
+- [JavaDoc Dokumentáció](https://huncamper.github.io/prog1-projekt/)
 
