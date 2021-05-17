@@ -205,10 +205,10 @@ public class App extends JFrame {
             operationMenu.add(menuItem);
 
             // Actionlistener, mikor rákattintunk
-            menuItem.addActionListener((ActionEvent e2) -> {
+            menuItem.addActionListener((ActionEvent e) -> {
                 Action action = new AbstractAction() {
                     @Override
-                    public void actionPerformed(ActionEvent e2) {
+                    public void actionPerformed(ActionEvent e) {
                         BufferedImage image = (BufferedImage) this.getValue("image");
                         setImage(image);
                     }
